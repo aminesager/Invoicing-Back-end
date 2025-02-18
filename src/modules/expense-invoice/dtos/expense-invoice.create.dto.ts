@@ -1,7 +1,7 @@
 import { IsString, MaxLength } from 'class-validator';
 
-export class BuyInvoiceDto {
+export class CreateExpenseInvoiceDto {
   @IsString()
   @MaxLength(25)
-  name: string;
+  label: string;
 }
