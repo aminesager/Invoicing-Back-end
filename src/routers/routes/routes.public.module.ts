@@ -46,9 +46,12 @@ import { TaxController } from 'src/modules/tax/controllers/tax.controller';
 import { TaxModule } from 'src/modules/tax/tax.module';
 import { UserController } from 'src/modules/user/controllers/user.controller';
 import { UsersModule } from 'src/modules/user/user.module';
+import { BuyQuotationModule } from 'src/modules/buy-quotation/buy-quotation.module';
+import { BuyQuotationController } from 'src/modules/buy-quotation/controller/buy-quotation.controller';
 
 @Module({
   controllers: [
+    BuyQuotationController,
     AuthController,
     ActivityController,
     AddressController,
@@ -76,6 +79,7 @@ import { UsersModule } from 'src/modules/user/user.module';
   providers: [],
   exports: [],
   imports: [
+    BuyQuotationModule,
     LoggerModule,
     AuthModule,
     ActivityModule,
