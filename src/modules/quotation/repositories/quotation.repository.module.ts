@@ -10,7 +10,6 @@ import { QuotationMetaDataRepository } from './repository/quotation-meta-data-re
 import { QuotationMetaDataEntity } from './entities/quotation-meta-data.entity';
 import { QuotationUploadRepository } from './repository/quotation-upload.repository';
 import { QuotationUploadEntity } from './entities/quotation-file.entity';
-import { map } from 'rxjs';
 
 @Module({
   controllers: [],
@@ -37,7 +36,3 @@ import { map } from 'rxjs';
   ],
 })
 export class QuotationRepositoryModule {}
-
-buy-quotation module
-.adding the controller and module into routes.public.module
-.updating the buy-quotation maodule to handle repositories, service and controller
