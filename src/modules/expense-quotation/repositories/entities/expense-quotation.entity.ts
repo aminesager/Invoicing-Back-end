@@ -1,8 +1,4 @@
-import { DISCOUNT_TYPES } from 'src/app/enums/discount-types.enum';
-import { EntityHelper } from 'src/common/database/interfaces/database.entity.interface';
-import { CurrencyEntity } from 'src/modules/currency/repositories/entities/currency.entity';
-import { FirmEntity } from 'src/modules/firm/repositories/entities/firm.entity';
-import { InterlocutorEntity } from 'src/modules/interlocutor/repositories/entity/interlocutor.entity';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Entity,
   Column,
@@ -12,16 +8,19 @@ import {
   OneToMany,
   OneToOne,
 } from 'typeorm';
-import { QUOTATION_STATUS } from '../../enums/quotation-status.enum';
+
+import { DISCOUNT_TYPES } from 'src/app/enums/discount-types.enum';
+import { EntityHelper } from 'src/common/database/interfaces/database.entity.interface';
+import { CurrencyEntity } from 'src/modules/currency/repositories/entities/currency.entity';
+import { FirmEntity } from 'src/modules/firm/repositories/entities/firm.entity';
+import { InterlocutorEntity } from 'src/modules/interlocutor/repositories/entity/interlocutor.entity';
+import { EXPENSE_QUOTATION_STATUS } from '../../enums/expense-quotation-status.enum';
 import { BankAccountEntity } from 'src/modules/bank-account/repositories/entities/bank-account.entity';
 import { CabinetEntity } from 'src/modules/cabinet/repositories/entities/cabinet.entity';
-import { ArticleQuotationEntryEntity } from './article-quotation-entry.entity';
-import { QuotationMetaDataEntity } from './quotation-meta-data.entity';
-import { QuotationUploadEntity } from './quotation-file.entity';
-import { InvoiceEntity } from 'src/modules/invoice/repositories/entities/invoice.entity';
 
-@Entity('quotation')
-export class QuotationEntity extends EntityHelper {
+@Entity('expense-quotation')
+export class ExpenseQuotationEntity extends EntityHelper {
+  [x: string]: any;
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -40,8 +39,8 @@ export class QuotationEntity extends EntityHelper {
   @Column({ type: 'varchar', length: 1024, nullable: true })
   generalConditions: string;
 
-  @Column({ type: 'enum', enum: QUOTATION_STATUS, nullable: true })
-  status: QUOTATION_STATUS;
+  @Column({ type: 'enum', enum: EXPENSE_QUOTATION_STATUS, nullable: true })
+  status: EXPENSE_QUOTATION_STATUS;
 
   @Column({ nullable: true })
   discount: number;
@@ -85,24 +84,4 @@ export class QuotationEntity extends EntityHelper {
 
   @Column({ type: 'varchar', length: 1024, nullable: true })
   notes: string;
-
-  @OneToMany(() => ArticleQuotationEntryEntity, (entry) => entry.quotation)
-  articleQuotationEntries: ArticleQuotationEntryEntity[];
-
-  @OneToOne(() => QuotationMetaDataEntity)
-  @JoinColumn()
-  quotationMetaData: QuotationMetaDataEntity;
-
-  @ManyToOne(() => BankAccountEntity)
-  @JoinColumn({ name: 'bankAccountId' })
-  bankAccount: BankAccountEntity;
-
-  @Column({ type: 'int' })
-  bankAccountId: number;
-
-  @OneToMany(() => QuotationUploadEntity, (upload) => upload.quotation)
-  uploads: QuotationUploadEntity[];
-
-  @OneToMany(() => InvoiceEntity, (invoice) => invoice.quotation)
-  invoices: InvoiceEntity[];
 }
