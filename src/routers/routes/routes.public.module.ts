@@ -47,11 +47,14 @@ import { TaxModule } from 'src/modules/tax/tax.module';
 import { UserController } from 'src/modules/user/controllers/user.controller';
 import { UsersModule } from 'src/modules/user/user.module';
 import { BuyQuotationModule } from 'src/modules/buy-quotation/buy-quotation.module';
-import { BuyQuotationController } from 'src/modules/buy-quotation/controller/buy-quotation.controller';
+import { BuyQuotationController } from 'src/modules/buy-quotation/controllers/buy-quotation.controller';
+import { BuyInvoiceController } from 'src/modules/buy-invoice/controllers/buy-invoice.controller';
+import { BuyInvoiceModule } from 'src/modules/buy-invoice/buy-invoice.module';
 
 @Module({
   controllers: [
     BuyQuotationController,
+    BuyInvoiceController,
     AuthController,
     ActivityController,
     AddressController,
@@ -80,6 +83,7 @@ import { BuyQuotationController } from 'src/modules/buy-quotation/controller/buy
   exports: [],
   imports: [
     BuyQuotationModule,
+    BuyInvoiceModule,
     LoggerModule,
     AuthModule,
     ActivityModule,

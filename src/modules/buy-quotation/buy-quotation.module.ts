@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { BuyQuotationService } from './services/buy-quotation.service'; // Assuming this service exists
 import { BuyQuotationRepository } from './repositories/repository/buy-quotation.repository';
-import { BuyQuotationController } from './controller/buy-quotation.controller';
+import { BuyQuotationController } from './controllers/buy-quotation.controller';
 import { BuyQuotationEntity } from './repositories/entities/buy-quotation.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 

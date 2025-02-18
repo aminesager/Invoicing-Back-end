@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
-import { BuyQuotationService } from '../services/buy-quotation.service';
-import { CreateBuyQuotationDto } from '../dtos/create-buy-quotation.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { BuyQuotationDto } from '../dtos/buy-quotation.dto';
+import { BuyQuotationService } from '../services/buy-quotation.service';
 
 @ApiTags('buy-quotation')
 @Controller({
@@ -12,8 +12,8 @@ export class BuyQuotationController {
   constructor(private readonly buyQuotationService: BuyQuotationService) {}
 
   @Post()
-  async create(@Body() createBuyQuotationDto: CreateBuyQuotationDto) {
-    return this.buyQuotationService.create(createBuyQuotationDto);
+  async create(@Body() buyQuotationDto: BuyQuotationDto) {
+    return this.buyQuotationService.create(buyQuotationDto);
   }
 
   @Get()

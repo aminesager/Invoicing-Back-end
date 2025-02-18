@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBuyQuotationDto } from '../dtos/create-buy-quotation.dto';
+import { BuyQuotationDto } from '../dtos/buy-quotation.dto';
 import { BuyQuotationRepository } from '../repositories/repository/buy-quotation.repository';
 
 @Injectable()
@@ -8,8 +8,8 @@ export class BuyQuotationService {
     private readonly buyQuotationRepository: BuyQuotationRepository,
   ) {}
 
-  async create(createBuyQuotationDto: CreateBuyQuotationDto) {
-    return this.buyQuotationRepository.create(createBuyQuotationDto);
+  async create(buyQuotationDto: BuyQuotationDto) {
+    return this.buyQuotationRepository.create(buyQuotationDto);
   }
 
   async findAll() {

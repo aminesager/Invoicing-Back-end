@@ -1,18 +1,18 @@
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { BuyQuotationDto } from '../../dtos/buy-quotation.dto';
 import { BuyQuotationEntity } from '../entities/buy-quotation.entity';
-import { CreateBuyQuotationDto } from '../../dtos/create-buy-quotation.dto';
 
 @Injectable()
 export class BuyQuotationRepository {
   constructor(
-    @InjectRepository(BuyQuotationEntity)
+    @InjectRepository(BuyQuotationEntity) //automatically connects this repository to the correct database table hhh
     private readonly buyQuotationRepository: Repository<BuyQuotationEntity>,
   ) {}
 
-  async create(createBuyQuotationDto: CreateBuyQuotationDto) {
-    const newRecord = this.buyQuotationRepository.create(createBuyQuotationDto);
+  async create(buyQuotationDto: BuyQuotationDto) {
+    const newRecord = this.buyQuotationRepository.create(buyQuotationDto);
     return this.buyQuotationRepository.save(newRecord);
   }
 
