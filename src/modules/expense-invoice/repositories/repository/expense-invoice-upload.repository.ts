@@ -4,15 +4,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterTypeOrm } from '@nestjs-cls/transactional-adapter-typeorm';
-import { ExpenseInvoiceEntity } from '../entities/expense-invoice.entity';
+import { ExpenseInvoiceUploadEntity } from '../entities/expense-invoice-file.entity';
 
 @Injectable()
-export class ExpenseInvoiceRepository extends DatabaseAbstractRepository<ExpenseInvoiceEntity> {
+export class ExpenseInvoiceUploadRepository extends DatabaseAbstractRepository<ExpenseInvoiceUploadEntity> {
   constructor(
-    @InjectRepository(ExpenseInvoiceEntity)
-    private readonly invoiceRepository: Repository<ExpenseInvoiceEntity>,
+    @InjectRepository(ExpenseInvoiceUploadEntity)
+    private readonly expenseInvoiceUploadRespository: Repository<ExpenseInvoiceUploadEntity>,
     txHost: TransactionHost<TransactionalAdapterTypeOrm>,
   ) {
-    super(invoiceRepository, txHost);
+    super(expenseInvoiceUploadRespository, txHost);
   }
 }

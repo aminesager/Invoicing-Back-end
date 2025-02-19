@@ -22,8 +22,8 @@ import { CurrencyController } from 'src/modules/currency/controllers/currency.co
 import { CurrencyModule } from 'src/modules/currency/currency.module';
 import { DefaultConditionController } from 'src/modules/default-condition/controllers/default-condition.controller';
 import { DefaultConditionModule } from 'src/modules/default-condition/default-condition.module';
-import { ExpenseInvoiceController } from 'src/modules/expense-invoice/controllers/expense-invoice.controller';
-import { ExpenseInvoiceModule } from 'src/modules/expense-invoice/expense-invoice.module';
+import { ExpenseInvoiceController } from 'src/modules/expense-invoice-test-api/controllers/expense-invoice.controller';
+import { ExpenseInvoiceModule } from 'src/modules/expense-invoice-test-api/expense-invoice.module';
 import { FirmInterlocutorEntryController } from 'src/modules/firm-interlocutor-entry/controllers/firm-interlocutor-entry.controller.ts';
 import { FirmInterlocutorEntryModule } from 'src/modules/firm-interlocutor-entry/firm-interlocutor-entry.module';
 import { FirmController } from 'src/modules/firm/controllers/firm.controller';

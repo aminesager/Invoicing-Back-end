@@ -22,7 +22,7 @@ import { IQueryObject } from 'src/common/database/interfaces/database-query-opti
 import { UpdateExpenseQuotationSequenceDto } from '../dtos/expense-quotation-seqence.update.dto';
 import { DuplicateExpenseQuotationDto } from '../dtos/expense-quotation.duplicate.dto';
 import { ExpenseQuotationSequence } from '../interfaces/expense-quotation-sequence.interface';
-//import { EXPENSE_QUOTATION_STATUS } from '../enums/expense-quotation-status.enum';
+import { EXPENSE_QUOTATION_STATUS } from '../enums/expense-quotation-status.enum';
 import { InvoiceService } from 'src/modules/invoice/services/invoice.service';
 import { LogInterceptor } from 'src/common/logger/decorators/logger.interceptor';
 import { LogEvent } from 'src/common/logger/decorators/log-event.decorator';
@@ -128,8 +128,7 @@ export class ExpenseQuotationController {
     );
   }
 
-  /*
-    @ApiParam({
+  @ApiParam({
     name: 'id',
     type: 'number',
     required: true,
@@ -174,7 +173,7 @@ export class ExpenseQuotationController {
       join: 'invoices',
     });
   }
-*/
+
   @ApiParam({
     name: 'id',
     type: 'number',

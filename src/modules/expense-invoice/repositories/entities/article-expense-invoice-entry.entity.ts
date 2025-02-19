@@ -1,7 +1,6 @@
 import { DISCOUNT_TYPES } from 'src/app/enums/discount-types.enum';
 import { EntityHelper } from 'src/common/database/interfaces/database.entity.interface';
 import { ArticleEntity } from 'src/modules/article/repositories/entities/article.entity';
-import { ExpenseQuotationEntity } from './expense-quotation.entity';
 import {
   Entity,
   Column,
@@ -10,10 +9,11 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { ArticleExpenseQuotationEntryTaxEntity } from './article-expense-quotation-entry-tax.entity';
+import { ArticleExpenseInvoiceEntryTaxEntity } from './article-expense-invoice-entry-tax.entity';
+import { ExpenseInvoiceEntity } from './expense-invoice.entity';
 
-@Entity('article-expense-quotation-entry')
-export class ArticleExpenseQuotationEntryEntity extends EntityHelper {
+@Entity('article-expense-invoice-entry')
+export class ArticleExpenseInvoiceEntryEntity extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -42,17 +42,17 @@ export class ArticleExpenseQuotationEntryEntity extends EntityHelper {
   @Column({ type: 'int', nullable: true })
   articleId: number;
 
-  @ManyToOne(() => ExpenseQuotationEntity)
-  @JoinColumn({ name: 'expenseQuotationId' })
-  expenseQuotation: ExpenseQuotationEntity;
+  @ManyToOne(() => ExpenseInvoiceEntity)
+  @JoinColumn({ name: 'expenseInvoiceId' })
+  expenseInvoice: ExpenseInvoiceEntity;
 
   @Column({ type: 'int', nullable: true })
-  expenseQuotationId: number;
+  expenseInvoiceId: number;
 
   @OneToMany(
-    () => ArticleExpenseQuotationEntryTaxEntity,
-    (articleExpenseQuotationEntryTax) =>
-      articleExpenseQuotationEntryTax.articleExpenseQuotationEntry,
+    () => ArticleExpenseInvoiceEntryTaxEntity,
+    (articleExpenseInvoiceEntryTax) =>
+      articleExpenseInvoiceEntryTax.articleExpenseInvoiceEntry,
   )
-  articleExpenseQuotationEntryTaxes: ArticleExpenseQuotationEntryTaxEntity[];
+  articleExpenseInvoiceEntryTaxes: ArticleExpenseInvoiceEntryTaxEntity[];
 }

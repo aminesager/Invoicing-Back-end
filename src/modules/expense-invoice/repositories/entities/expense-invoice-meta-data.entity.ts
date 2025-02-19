@@ -1,20 +1,20 @@
 import { EntityHelper } from 'src/common/database/interfaces/database.entity.interface';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ExpenseQuotationEntity } from './expense-quotation.entity';
+import { ExpenseInvoiceEntity } from './expense-invoice.entity';
 
-@Entity('expense-quotation_meta_data')
-export class ExpenseQuotationMetaDataEntity extends EntityHelper {
+@Entity('expense-invoice_meta_data')
+export class ExpenseInvoiceMetaDataEntity extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
   @OneToOne(
-    () => ExpenseQuotationEntity,
-    (expenseQuotation) => expenseQuotation.expenseQuotationMetaData,
+    () => ExpenseInvoiceEntity,
+    (expenseInvoice) => expenseInvoice.expenseInvoiceMetaData,
   )
-  expenseQuotation: ExpenseQuotationEntity;
+  expenseInvoice: ExpenseInvoiceEntity;
 
   @Column({ type: 'boolean', default: true })
-  showInvoiceAddress: boolean;
+  showExpenseInvoiceAddress: boolean;
 
   @Column({ type: 'boolean', default: true })
   showDeliveryAddress: boolean;
@@ -27,6 +27,12 @@ export class ExpenseQuotationMetaDataEntity extends EntityHelper {
 
   @Column({ type: 'boolean', default: true })
   hasGeneralConditions: boolean;
+
+  @Column({ type: 'boolean', default: true })
+  hasTaxStamp: boolean;
+
+  @Column({ type: 'boolean', default: true })
+  hasTaxWithholding: boolean;
 
   @Column({ type: 'json', nullable: true })
   taxSummary: any;
