@@ -39,7 +39,7 @@ export class ResponseArticleExpenseQuotationEntryDto {
   @ApiProperty({ example: 1, type: Number, required: false })
   @IsOptional()
   @IsInt()
-  quotationId?: number;
+  ExpenseQuotationId?: number;
 
   @ApiProperty({ required: false })
   @IsOptional()

@@ -41,7 +41,7 @@ export class CreateArticleExpenseQuotationEntryDto {
   @ApiProperty({ example: 1, type: Number, required: false })
   @IsOptional()
   @IsInt()
-  quotationId?: number;
+  expenseQuotationId?: number;
 
   @ApiProperty({ required: false })
   @IsOptional()

@@ -8,7 +8,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { DISCOUNT_TYPES } from 'src/app/enums/discount-types.enum';
-import { CreateArticleQuotationEntryDto } from 'src/modules/quotation/dtos/article-quotation-entry.create.dto';
+import { CreateArticleExpenseQuotationEntryDto } from './article-expense-quotation-entry.create.dto';
 import { EXPENSE_QUOTATION_STATUS } from '../enums/expense-quotation-status.enum';
 import { CreateExpenseQuotationMetaDataDto } from './expense-quotation-meta-data.create.dto';
 import { CreateExpenseQuotationUploadDto } from './expense-quotation-upload.create.dto';
@@ -99,13 +99,16 @@ export class CreateExpenseQuotationDto {
   @MaxLength(1024)
   notes?: string;
 
-  @ApiProperty({ type: () => CreateArticleQuotationEntryDto, isArray: true })
+  @ApiProperty({
+    type: () => CreateArticleExpenseQuotationEntryDto,
+    isArray: true,
+  })
   @IsOptional()
-  articleQuotationEntries?: CreateArticleQuotationEntryDto[];
+  articleExpenseQuotationEntries?: CreateArticleExpenseQuotationEntryDto[];
 
   @ApiProperty({ type: () => CreateExpenseQuotationMetaDataDto })
   @IsOptional()
-  quotationMetaData?: CreateExpenseQuotationMetaDataDto;
+  expenseQuotationMetaData?: CreateExpenseQuotationMetaDataDto;
 
   @ApiProperty({ required: false })
   @IsOptional()

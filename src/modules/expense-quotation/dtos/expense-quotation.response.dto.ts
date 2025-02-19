@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
 import { DISCOUNT_TYPES } from 'src/app/enums/discount-types.enum';
-import { ResponseArticleQuotationEntryDto } from 'src/modules/quotation/dtos/article-quotation-entry.response.dto';
 import { ResponseFirmDto } from 'src/modules/firm/dtos/firm.response.dto';
 import { ResponseInterlocutorDto } from 'src/modules/interlocutor/dtos/interlocutor.response.dto';
 import { ResponseCabinetDto } from 'src/modules/cabinet/dtos/cabinet.response.dto';
@@ -118,11 +117,14 @@ export class ResponseExpenseQuotationDto {
   })
   notes?: string;
 
-  @ApiProperty({ type: () => ResponseArticleQuotationEntryDto, isArray: true })
-  articleQuotationEntries?: ResponseArticleExpenseQuotationEntryDto[];
+  @ApiProperty({
+    type: () => ResponseArticleExpenseQuotationEntryDto,
+    isArray: true,
+  })
+  articleExpenseQuotationEntries?: ResponseArticleExpenseQuotationEntryDto[];
 
   @ApiProperty({ type: () => ResponseExpenseQuotationMetaDataDto })
-  quotationMetaData?: ResponseExpenseQuotationMetaDataDto;
+  expenseQuotationMetaData?: ResponseExpenseQuotationMetaDataDto;
 
   @ApiProperty({ required: false })
   uploads?: ResponseExpenseQuotationUploadDto[];

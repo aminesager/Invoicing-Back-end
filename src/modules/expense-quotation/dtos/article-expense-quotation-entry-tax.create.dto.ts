@@ -7,5 +7,5 @@ export class CreateArticleExpenseQuotationEntryTaxDto {
 
   @ApiProperty({})
   @IsOptional()
-  articleQuotationEntryId?: number;
+  articleExpenseQuotationEntryId?: number;
 }
