@@ -10,7 +10,7 @@ import { ExpenseQuotationEntity } from './expense-quotation.entity';
 import { UploadEntity } from 'src/common/storage/repositories/entities/upload.entity';
 
 @Entity('expense-quotation-upload')
-export class QuotationUploadEntity extends EntityHelper {
+export class ExpenseQuotationUploadEntity extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 

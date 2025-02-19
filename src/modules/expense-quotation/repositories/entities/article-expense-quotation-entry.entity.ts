@@ -47,7 +47,7 @@ export class ArticleExpenseQuotationEntryEntity extends EntityHelper {
   quotation: QuotationEntity;
 
   @Column({ type: 'int', nullable: true })
-  quotationId: number;
+  expenseQuotationId: number;
 
   @OneToMany(
     () => ArticleExpenseQuotationEntryTaxEntity,
@@ -56,13 +56,3 @@ export class ArticleExpenseQuotationEntryEntity extends EntityHelper {
   )
   articleExpenseQuotationEntryTaxes: ArticleExpenseQuotationEntryTaxEntity[];
 }
-
-
-
-Creating the entities in the Expense-Quotation
-.article-expense-quotation-entry-tax.entity
-.article-expense-quotation-entry.entity
-.expense-quotation-file.entity
-.expense-quotation-meta-data.entity
-.expense-quotation.entity
-+new Migration defining the schema 

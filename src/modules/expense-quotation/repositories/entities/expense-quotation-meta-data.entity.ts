@@ -3,7 +3,7 @@ import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ExpenseQuotationEntity } from './expense-quotation.entity';
 
 @Entity('expense-quotation_meta_data')
-export class QuotationMetaDataEntity extends EntityHelper {
+export class ExpenseQuotationMetaDataEntity extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
