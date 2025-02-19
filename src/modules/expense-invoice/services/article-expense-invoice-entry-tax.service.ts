@@ -1,35 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { TaxService } from 'src/modules/tax/services/tax.service';
-import { ArticleInvoiceEntryTaxRepository } from '../repositories/repository/article-expense-invoice-entry-tax.repository';
-import { ArticleInvoiceEntryTaxEntity } from '../repositories/entities/article-expense-invoice-entry-tax.entity';
-import { CreateArticleInvoiceEntryTaxDto } from '../dtos/article-expense-invoice-entry-tax.create.dto';
+import { ArticleExpenseInvoiceEntryTaxRepository } from '../repositories/repository/article-expense-invoice-entry-tax.repository';
+import { ArticleExpenseInvoiceEntryTaxEntity } from '../repositories/entities/article-expense-invoice-entry-tax.entity';
+import { CreateArticleExpenseInvoiceEntryTaxDto } from '../dtos/article-expense-invoice-entry-tax.create.dto';
 
 @Injectable()
-export class ArticleInvoiceEntryTaxService {
+export class ArticleExpenseInvoiceEntryTaxService {
   constructor(
-    private readonly articleInvoiceEntryTaxRepository: ArticleInvoiceEntryTaxRepository,
+    private readonly articleExpenseInvoiceEntryTaxRepository: ArticleExpenseInvoiceEntryTaxRepository,
     private readonly taxService: TaxService,
   ) {}
 
   async save(
-    createArticleInvoiceEntryTaxDto: CreateArticleInvoiceEntryTaxDto,
-  ): Promise<ArticleInvoiceEntryTaxEntity> {
+    createArticleExpenseInvoiceEntryTaxDto: CreateArticleExpenseInvoiceEntryTaxDto,
+  ): Promise<ArticleExpenseInvoiceEntryTaxEntity> {
     const tax = await this.taxService.findOneById(
-      createArticleInvoiceEntryTaxDto.taxId,
+      createArticleExpenseInvoiceEntryTaxDto.taxId,
     );
-    const taxEntry = await this.articleInvoiceEntryTaxRepository.save({
-      articleInvoiceEntryId:
-        createArticleInvoiceEntryTaxDto.articleInvoiceEntryId,
+    const taxEntry = await this.articleExpenseInvoiceEntryTaxRepository.save({
+      articleExpenseInvoiceEntryId:
+        createArticleExpenseInvoiceEntryTaxDto.articleExpenseInvoiceEntryId,
       tax,
     });
     return taxEntry;
   }
 
   async saveMany(
-    createArticleInvoiceEntryTaxDtos: CreateArticleInvoiceEntryTaxDto[],
-  ): Promise<ArticleInvoiceEntryTaxEntity[]> {
+    createArticleExpenseInvoiceEntryTaxDtos: CreateArticleExpenseInvoiceEntryTaxDto[],
+  ): Promise<ArticleExpenseInvoiceEntryTaxEntity[]> {
     const savedEntries = [];
-    for (const dto of createArticleInvoiceEntryTaxDtos) {
+    for (const dto of createArticleExpenseInvoiceEntryTaxDtos) {
       const savedEntry = await this.save(dto);
       savedEntries.push(savedEntry);
     }
@@ -37,7 +37,7 @@ export class ArticleInvoiceEntryTaxService {
   }
 
   async softDelete(id: number): Promise<void> {
-    await this.articleInvoiceEntryTaxRepository.softDelete(id);
+    await this.articleExpenseInvoiceEntryTaxRepository.softDelete(id);
   }
 
   async softDeleteMany(ids: number[]): Promise<void> {

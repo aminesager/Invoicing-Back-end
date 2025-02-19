@@ -35,4 +35,4 @@ import { ArticleExpenseInvoiceEntryTaxEntity } from './entities/article-expense-
     TypeOrmModule.forFeature([ArticleExpenseInvoiceEntryTaxEntity]),
   ],
 })
-export class InvoiceRepositoryModule {}
+export class ExpenseInvoiceRepositoryModule {}

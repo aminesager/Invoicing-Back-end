@@ -5,56 +5,56 @@ import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { PageDto } from 'src/common/database/dtos/database.page.dto';
 import { PageMetaDto } from 'src/common/database/dtos/database.page-meta.dto';
 import { StorageService } from 'src/common/storage/services/storage.service';
-import { InvoiceUploadRepository } from '../repositories/repository/expense-invoice-upload.repository';
-import { InvoiceUploadEntity } from '../repositories/entities/expense-invoice-file.entity';
-import { InvoiceUploadNotFoundException } from '../errors/expense-invoice-upload.notfound';
+import { ExpenseInvoiceUploadRepository } from '../repositories/repository/expense-invoice-upload.repository';
+import { ExpenseInvoiceUploadEntity } from '../repositories/entities/expense-invoice-file.entity';
+import { ExpenseInvoiceUploadNotFoundException } from '../errors/expense-invoice-upload.notfound';
 
 @Injectable()
-export class InvoiceUploadService {
+export class ExpenseInvoiceUploadService {
   constructor(
-    private readonly invoiceUploadRepository: InvoiceUploadRepository,
+    private readonly expenseInvoiceUploadRepository: ExpenseInvoiceUploadRepository,
     private readonly storageService: StorageService,
   ) {}
 
-  async findOneById(id: number): Promise<InvoiceUploadEntity> {
-    const upload = await this.invoiceUploadRepository.findOneById(id);
+  async findOneById(id: number): Promise<ExpenseInvoiceUploadEntity> {
+    const upload = await this.expenseInvoiceUploadRepository.findOneById(id);
     if (!upload) {
-      throw new InvoiceUploadNotFoundException();
+      throw new ExpenseInvoiceUploadNotFoundException();
     }
     return upload;
   }
 
   async findOneByCondition(
     query: IQueryObject,
-  ): Promise<InvoiceUploadEntity | null> {
+  ): Promise<ExpenseInvoiceUploadEntity | null> {
     const queryBuilder = new QueryBuilder();
     const queryOptions = queryBuilder.build(query);
-    const upload = await this.invoiceUploadRepository.findOne(
-      queryOptions as FindOneOptions<InvoiceUploadEntity>,
+    const upload = await this.expenseInvoiceUploadRepository.findOne(
+      queryOptions as FindOneOptions<ExpenseInvoiceUploadEntity>,
     );
     if (!upload) return null;
     return upload;
   }
 
-  async findAll(query: IQueryObject): Promise<InvoiceUploadEntity[]> {
+  async findAll(query: IQueryObject): Promise<ExpenseInvoiceUploadEntity[]> {
     const queryBuilder = new QueryBuilder();
     const queryOptions = queryBuilder.build(query);
-    return await this.invoiceUploadRepository.findAll(
-      queryOptions as FindManyOptions<InvoiceUploadEntity>,
+    return await this.expenseInvoiceUploadRepository.findAll(
+      queryOptions as FindManyOptions<ExpenseInvoiceUploadEntity>,
     );
   }
 
   async findAllPaginated(
     query: IQueryObject,
-  ): Promise<PageDto<InvoiceUploadEntity>> {
+  ): Promise<PageDto<ExpenseInvoiceUploadEntity>> {
     const queryBuilder = new QueryBuilder();
     const queryOptions = queryBuilder.build(query);
-    const count = await this.invoiceUploadRepository.getTotalCount({
+    const count = await this.expenseInvoiceUploadRepository.getTotalCount({
       where: queryOptions.where,
     });
 
-    const entities = await this.invoiceUploadRepository.findAll(
-      queryOptions as FindManyOptions<InvoiceUploadEntity>,
+    const entities = await this.expenseInvoiceUploadRepository.findAll(
+      queryOptions as FindManyOptions<ExpenseInvoiceUploadEntity>,
     );
 
     const pageMetaDto = new PageMetaDto({
@@ -69,63 +69,70 @@ export class InvoiceUploadService {
   }
 
   async save(
-    invoiceId: number,
+    expenseInvoiceId: number,
     uploadId: number,
-  ): Promise<InvoiceUploadEntity> {
-    return this.invoiceUploadRepository.save({ invoiceId, uploadId });
+  ): Promise<ExpenseInvoiceUploadEntity> {
+    return this.expenseInvoiceUploadRepository.save({
+      expenseInvoiceId,
+      uploadId,
+    });
   }
 
-  async duplicate(id: number, invoiceId: number): Promise<InvoiceUploadEntity> {
+  async duplicate(
+    id: number,
+    expenseInvoiceId: number,
+  ): Promise<ExpenseInvoiceUploadEntity> {
     //Find the original invoice upload entity
-    const originalInvoiceUpload = await this.findOneById(id);
+    const originalExpenseInvoiceUpload = await this.findOneById(id);
 
     //Use the StorageService to duplicate the file
     const duplicatedUpload = await this.storageService.duplicate(
-      originalInvoiceUpload.uploadId,
+      originalExpenseInvoiceUpload.uploadId,
     );
 
     //Save the duplicated InvoiceUploadEntity
-    const duplicatedInvoiceUpload = await this.invoiceUploadRepository.save({
-      invoiceId: invoiceId,
-      uploadId: duplicatedUpload.id,
-    });
+    const duplicatedExpenseInvoiceUpload =
+      await this.expenseInvoiceUploadRepository.save({
+        expenseInvoiceId: expenseInvoiceId,
+        uploadId: duplicatedUpload.id,
+      });
 
-    return duplicatedInvoiceUpload;
+    return duplicatedExpenseInvoiceUpload;
   }
 
   async duplicateMany(
     ids: number[],
-    invoiceId: number,
-  ): Promise<InvoiceUploadEntity[]> {
+    expenseInvoiceId: number,
+  ): Promise<ExpenseInvoiceUploadEntity[]> {
     const duplicatedInvoiceUploads = await Promise.all(
-      ids.map((id) => this.duplicate(id, invoiceId)),
+      ids.map((id) => this.duplicate(id, expenseInvoiceId)),
     );
-    return duplicatedInvoiceUploads;
+    return duplicatedExpenseInvoiceUploads;
   }
 
-  async softDelete(id: number): Promise<InvoiceUploadEntity> {
+  async softDelete(id: number): Promise<ExpenseInvoiceUploadEntity> {
     const upload = await this.findOneById(id);
     this.storageService.delete(upload.uploadId);
-    this.invoiceUploadRepository.softDelete(upload.id);
+    this.expenseInvoiceUploadRepository.softDelete(upload.id);
     return upload;
   }
 
   async softDeleteMany(
-    invoiceUploadEntities: InvoiceUploadEntity[],
-  ): Promise<InvoiceUploadEntity[]> {
+    expenseInvoiceUploadEntities: ExpenseInvoiceUploadEntity[],
+  ): Promise<ExpenseInvoiceUploadEntity[]> {
     this.storageService.deleteMany(
-      invoiceUploadEntities.map((qu) => qu.upload.id),
+      expenseInvoiceUploadEntities.map((qu) => qu.upload.id),
     );
-    return this.invoiceUploadRepository.softDeleteMany(
-      invoiceUploadEntities.map((qu) => qu.id),
+    return this.expenseInvoiceUploadRepository.softDeleteMany(
+      expenseInvoiceUploadEntities.map((qu) => qu.id),
     );
   }
 
   async deleteAll() {
-    return this.invoiceUploadRepository.deleteAll();
+    return this.expenseInvoiceUploadRepository.deleteAll();
   }
 
   async getTotal(): Promise<number> {
-    return this.invoiceUploadRepository.getTotalCount();
+    return this.expenseInvoiceUploadRepository.getTotalCount();
   }
 }

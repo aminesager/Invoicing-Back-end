@@ -10,29 +10,29 @@ import { AppConfigModule } from 'src/common/app-config/app-config.module';
 import { GatewaysModule } from 'src/common/gateways/gateways.module';
 import { BankAccountModule } from '../bank-account/bank-account.module';
 import { StorageModule } from 'src/common/storage/storage.module';
-import { InvoiceService } from './services/expense-invoice.service';
-import { InvoiceMetaDataService } from './services/expense-invoice-meta-data.service';
-import { InvoiceUploadService } from './services/expense-invoice-upload.service';
-import { InvoiceSequenceService } from './services/expense-invoice-sequence.service';
-import { ArticleInvoiceEntryService } from './services/article-expense-invoice-entry.service';
-import { ArticleInvoiceEntryTaxService } from './services/article-expense-invoice-entry-tax.service';
-import { InvoiceRepositoryModule } from './repositories/expense-invoice.repository.module';
+import { ExpenseInvoiceService } from './services/expense-invoice.service';
+import { ExpenseInvoiceMetaDataService } from './services/expense-invoice-meta-data.service';
+import { ExpenseInvoiceUploadService } from './services/expense-invoice-upload.service';
+import { ExpenseInvoiceSequenceService } from './services/expense-invoice-sequence.service';
+import { ArticleExpenseInvoiceEntryService } from './services/article-expense-invoice-entry.service';
+import { ArticleExpenseInvoiceEntryTaxService } from './services/article-expense-invoice-entry-tax.service';
+import { ExpenseInvoiceRepositoryModule } from './repositories/expense-invoice.repository.module';
 import { TaxWithholdingModule } from '../tax-withholding/tax-withholding.module';
 
 @Module({
   controllers: [],
   providers: [
-    InvoiceService,
-    InvoiceMetaDataService,
-    InvoiceUploadService,
-    InvoiceSequenceService,
-    ArticleInvoiceEntryService,
-    ArticleInvoiceEntryTaxService,
+    ExpenseInvoiceService,
+    ExpenseInvoiceMetaDataService,
+    ExpenseInvoiceUploadService,
+    ExpenseInvoiceSequenceService,
+    ArticleExpenseInvoiceEntryService,
+    ArticleExpenseInvoiceEntryTaxService,
   ],
-  exports: [InvoiceService],
+  exports: [ExpenseInvoiceService],
   imports: [
     //repositories
-    InvoiceRepositoryModule,
+    ExpenseInvoiceRepositoryModule,
     //entities
     ArticleModule,
     AppConfigModule,

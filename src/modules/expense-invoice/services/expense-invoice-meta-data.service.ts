@@ -4,58 +4,60 @@ import { QueryBuilder } from 'src/common/database/utils/database-query-builder';
 import { FindManyOptions, FindOneOptions } from 'typeorm';
 import { PageMetaDto } from 'src/common/database/dtos/database.page-meta.dto';
 import { PageDto } from 'src/common/database/dtos/database.page.dto';
-import { InvoiceMetaDataRepository } from '../repositories/repository/expense-invoice-meta-data.repository';
-import { InvoiceMetaDataEntity } from '../repositories/entities/expense-invoice-meta-data.entity';
-import { InvoiceMetaDataNotFoundException } from '../errors/expense-invoice-meta-data.notfound.error';
-import { ResponseInvoiceMetaDataDto } from '../dtos/expense-invoice-meta-data.response.dto';
-import { CreateInvoiceMetaDataDto } from '../dtos/expense-invoice-meta-data.create.dto';
-import { UpdateInvoiceMetaDataDto } from '../dtos/expense-invoice-meta-data.update.dto';
+import { ExpenseInvoiceMetaDataRepository } from '../repositories/repository/expense-invoice-meta-data.repository';
+import { ExpenseInvoiceMetaDataEntity } from '../repositories/entities/expense-invoice-meta-data.entity';
+import { ExpenseInvoiceMetaDataNotFoundException } from '../errors/expense-invoice-meta-data.notfound.error';
+import { ResponseExpenseInvoiceMetaDataDto } from '../dtos/expense-invoice-meta-data.response.dto';
+import { CreateExpenseInvoiceMetaDataDto } from '../dtos/expense-invoice-meta-data.create.dto';
+import { UpdateExpenseInvoiceMetaDataDto } from '../dtos/expense-invoice-meta-data.update.dto';
 
 @Injectable()
-export class InvoiceMetaDataService {
+export class ExpenseInvoiceMetaDataService {
   constructor(
-    private readonly invoiceMetaDataRepository: InvoiceMetaDataRepository,
+    private readonly expenseInvoiceMetaDataRepository: ExpenseInvoiceMetaDataRepository,
   ) {}
 
-  async findOneById(id: number): Promise<InvoiceMetaDataEntity> {
-    const data = await this.invoiceMetaDataRepository.findOneById(id);
+  async findOneById(id: number): Promise<ExpenseInvoiceMetaDataEntity> {
+    const data = await this.expenseInvoiceMetaDataRepository.findOneById(id);
     if (!data) {
-      throw new InvoiceMetaDataNotFoundException();
+      throw new ExpenseInvoiceMetaDataNotFoundException();
     }
     return data;
   }
 
   async findOneByCondition(
     query: IQueryObject,
-  ): Promise<ResponseInvoiceMetaDataDto | null> {
+  ): Promise<ResponseExpenseInvoiceMetaDataDto | null> {
     const queryBuilder = new QueryBuilder();
     const queryOptions = queryBuilder.build(query);
-    const data = await this.invoiceMetaDataRepository.findOne(
-      queryOptions as FindOneOptions<InvoiceMetaDataEntity>,
+    const data = await this.expenseInvoiceMetaDataRepository.findOne(
+      queryOptions as FindOneOptions<ExpenseInvoiceMetaDataEntity>,
     );
     if (!data) return null;
     return data;
   }
 
-  async findAll(query: IQueryObject): Promise<ResponseInvoiceMetaDataDto[]> {
+  async findAll(
+    query: IQueryObject,
+  ): Promise<ResponseExpenseInvoiceMetaDataDto[]> {
     const queryBuilder = new QueryBuilder();
     const queryOptions = queryBuilder.build(query);
-    return await this.invoiceMetaDataRepository.findAll(
-      queryOptions as FindManyOptions<InvoiceMetaDataEntity>,
+    return await this.expenseInvoiceMetaDataRepository.findAll(
+      queryOptions as FindManyOptions<ExpenseInvoiceMetaDataEntity>,
     );
   }
 
   async findAllPaginated(
     query: IQueryObject,
-  ): Promise<PageDto<ResponseInvoiceMetaDataDto>> {
+  ): Promise<PageDto<ResponseExpenseInvoiceMetaDataDto>> {
     const queryBuilder = new QueryBuilder();
     const queryOptions = queryBuilder.build(query);
-    const count = await this.invoiceMetaDataRepository.getTotalCount({
+    const count = await this.expenseInvoiceMetaDataRepository.getTotalCount({
       where: queryOptions.where,
     });
 
-    const entities = await this.invoiceMetaDataRepository.findAll(
-      queryOptions as FindManyOptions<InvoiceMetaDataEntity>,
+    const entities = await this.expenseInvoiceMetaDataRepository.findAll(
+      queryOptions as FindManyOptions<ExpenseInvoiceMetaDataEntity>,
     );
 
     const pageMetaDto = new PageMetaDto({
@@ -70,41 +72,43 @@ export class InvoiceMetaDataService {
   }
 
   async save(
-    createInvoiceMetaDataDto: CreateInvoiceMetaDataDto,
-  ): Promise<InvoiceMetaDataEntity> {
-    return this.invoiceMetaDataRepository.save(createInvoiceMetaDataDto);
+    createExpenseInvoiceMetaDataDto: CreateExpenseInvoiceMetaDataDto,
+  ): Promise<ExpenseInvoiceMetaDataEntity> {
+    return this.expenseInvoiceMetaDataRepository.save(
+      createExpenseInvoiceMetaDataDto,
+    );
   }
 
   async update(
     id: number,
-    updateInvoiceMetaDataDto: UpdateInvoiceMetaDataDto,
-  ): Promise<InvoiceMetaDataEntity> {
+    updateExpenseInvoiceMetaDataDto: UpdateExpenseInvoiceMetaDataDto,
+  ): Promise<ExpenseInvoiceMetaDataEntity> {
     const data = await this.findOneById(id);
-    return this.invoiceMetaDataRepository.save({
+    return this.expenseInvoiceMetaDataRepository.save({
       ...data,
-      ...updateInvoiceMetaDataDto,
+      ...updateExpenseInvoiceMetaDataDto,
     });
   }
 
-  async duplicate(id: number): Promise<InvoiceMetaDataEntity> {
+  async duplicate(id: number): Promise<ExpenseInvoiceMetaDataEntity> {
     const existingData = await this.findOneById(id);
     const duplicatedData = {
       ...existingData,
       id: undefined,
     };
-    return this.invoiceMetaDataRepository.save(duplicatedData);
+    return this.expenseInvoiceMetaDataRepository.save(duplicatedData);
   }
 
-  async softDelete(id: number): Promise<InvoiceMetaDataEntity> {
+  async softDelete(id: number): Promise<ExpenseInvoiceMetaDataEntity> {
     await this.findOneById(id);
-    return this.invoiceMetaDataRepository.softDelete(id);
+    return this.expenseInvoiceMetaDataRepository.softDelete(id);
   }
 
   async deleteAll() {
-    return this.invoiceMetaDataRepository.deleteAll();
+    return this.expenseInvoiceMetaDataRepository.deleteAll();
   }
 
   async getTotal(): Promise<number> {
-    return this.invoiceMetaDataRepository.getTotalCount();
+    return this.expenseInvoiceMetaDataRepository.getTotalCount();
   }
 }
