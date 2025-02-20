@@ -18,7 +18,7 @@ import { ExpensePaymentUploadService } from './expense-payment-upload.service';
 import { ResponseExpensePaymentUploadDto } from '../dtos/expense-payment-upload.response.dto';
 
 @Injectable()
-export class PaymentService {
+export class ExpensePaymentService {
   constructor(
     private readonly expensePaymentRepository: ExpensePaymentRepository,
     private readonly expensePaymentInvoiceEntryService: ExpensePaymentInvoiceEntryService,

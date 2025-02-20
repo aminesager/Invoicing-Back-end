@@ -41,7 +41,7 @@ export class ExpenseInvoiceController {
   async findAll(
     @Query() options: IQueryObject,
   ): Promise<ResponseExpenseInvoiceDto[]> {
-    return this.ExpenseInvoiceService.findAll(options);
+    return this.expenseInvoiceService.findAll(options);
   }
 
   @Get('/list')
@@ -91,7 +91,7 @@ export class ExpenseInvoiceController {
   @Post('')
   @LogEvent(EVENT_TYPE.EXPENSE_INVOICE_CREATED)
   async save(
-    @Body() createExpenseInvoiceDto: CreateExpenseExpenseInvoiceDto,
+    @Body() createExpenseInvoiceDto: CreateExpenseInvoiceDto,
     @Request() req: ExpressRequest,
   ): Promise<ResponseExpenseInvoiceDto> {
     const expenseInvoice = await this.expenseInvoiceService.save(
