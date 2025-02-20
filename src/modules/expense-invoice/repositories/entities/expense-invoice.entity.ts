@@ -20,7 +20,7 @@ import { ExpenseInvoiceMetaDataEntity } from './expense-invoice-meta-data.entity
 import { EXPENSE_INVOICE_STATUS } from '../../enums/expense-invoice-status.enum';
 import { QuotationEntity } from 'src/modules/quotation/repositories/entities/quotation.entity';
 import { TaxEntity } from 'src/modules/tax/repositories/entities/tax.entity';
-import { PaymentExpenseInvoiceEntryEntity } from 'src/modules/payment/repositories/entities/payment-invoice-entry.entity';
+import { PaymentInvoiceEntryEntity } from 'src/modules/payment/repositories/entities/payment-invoice-entry.entity';
 import { TaxWithholdingEntity } from 'src/modules/tax-withholding/repositories/entities/tax-withholding.entity';
 
 @Entity('expense-invoice')
@@ -129,11 +129,8 @@ export class ExpenseInvoiceEntity extends EntityHelper {
   @Column({ type: 'int' })
   taxStampId: number;
 
-  @OneToMany(
-    () => PaymentExpenseInvoiceEntryEntity,
-    (entry) => entry.expenseInvoice,
-  )
-  payments: PaymentExpenseInvoiceEntryEntity[];
+  @OneToMany(() => PaymentInvoiceEntryEntity, (entry) => entry.invoice)
+  payments: PaymentInvoiceEntryEntity[];
 
   @ManyToOne(() => TaxWithholdingEntity)
   @JoinColumn({ name: 'taxWithholdingId' })

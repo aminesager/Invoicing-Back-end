@@ -14,7 +14,7 @@ import { ApiTags, ApiParam } from '@nestjs/swagger';
 import { PageDto } from 'src/common/database/dtos/database.page.dto';
 import { ApiPaginatedResponse } from 'src/common/database/decorators/ApiPaginatedResponse';
 import { IQueryObject } from 'src/common/database/interfaces/database-query-options.interface';
-import { PaymentService } from '../services/expense-payment.service';
+import { ExpensePaymentService } from '../services/expense-payment.service';
 import { ResponseExpensePaymentDto } from '../dtos/expense-payment.response.dto';
 import { CreateExpensePaymentDto } from '../dtos/expense-payment.create.dto';
 import { UpdateExpensePaymentDto } from '../dtos/expense-payment.update.dto';
@@ -29,14 +29,14 @@ import { Request as ExpressRequest } from 'express';
   path: '/payment',
 })
 @UseInterceptors(LogInterceptor)
-export class PaymentController {
-  constructor(private readonly paymentService: PaymentService) {}
+export class ExpensePaymentController {
+  constructor(private readonly expensePaymentService: ExpensePaymentService) {}
 
   @Get('/all')
   async findAll(
     @Query() options: IQueryObject,
   ): Promise<ResponseExpensePaymentDto[]> {
-    return this.paymentService.findAll(options);
+    return this.expensePaymentService.findAll(options);
   }
 
   @Get('/list')
@@ -44,7 +44,7 @@ export class PaymentController {
   async findAllPaginated(
     @Query() query: IQueryObject,
   ): Promise<PageDto<ResponseExpensePaymentDto>> {
-    return this.paymentService.findAllPaginated(query);
+    return this.expensePaymentService.findAllPaginated(query);
   }
 
   @Get('/:id')
@@ -60,18 +60,20 @@ export class PaymentController {
     query.filter
       ? (query.filter += `,id||$eq||${id}`)
       : (query.filter = `id||$eq||${id}`);
-    return this.paymentService.findOneByCondition(query);
+    return this.expensePaymentService.findOneByCondition(query);
   }
 
   @Post('')
-  @LogEvent(EVENT_TYPE.SELLING_PAYMENT_CREATED)
+  @LogEvent(EVENT_TYPE.EXPENSE_PAYMENT_CREATED)
   async save(
-    @Body() createPaymentDto: CreateExpensePaymentDto,
+    @Body() createExpensePaymentDto: CreateExpensePaymentDto,
     @Request() req: ExpressRequest,
   ): Promise<ResponseExpensePaymentDto> {
-    const payment = await this.paymentService.save(createPaymentDto);
-    req.logInfo = { id: payment.id };
-    return payment;
+    const expensePayment = await this.expensePaymentService.save(
+      createExpensePaymentDto,
+    );
+    req.logInfo = { id: expensePayment.id };
+    return expensePayment;
   }
 
   @ApiParam({
@@ -80,14 +82,14 @@ export class PaymentController {
     required: true,
   })
   @Put('/:id')
-  @LogEvent(EVENT_TYPE.SELLING_PAYMENT_UPDATED)
+  @LogEvent(EVENT_TYPE.EXPENSE_PAYMENT_UPDATED)
   async update(
     @Param('id') id: number,
     @Body() updateActivityDto: UpdateExpensePaymentDto,
     @Request() req: ExpressRequest,
   ): Promise<ResponseExpensePaymentDto> {
     req.logInfo = { id };
-    return this.paymentService.update(id, updateActivityDto);
+    return this.expensePaymentService.update(id, updateActivityDto);
   }
 
   @ApiParam({
@@ -96,12 +98,12 @@ export class PaymentController {
     required: true,
   })
   @Delete('/:id')
-  @LogEvent(EVENT_TYPE.SELLING_PAYMENT_DELETED)
+  @LogEvent(EVENT_TYPE.EXPENSE_PAYMENT_DELETED)
   async delete(
     @Param('id') id: number,
     @Request() req: ExpressRequest,
   ): Promise<ResponseExpensePaymentDto> {
     req.logInfo = { id };
-    return this.paymentService.softDelete(id);
+    return this.expensePaymentService.softDelete(id);
   }
 }
