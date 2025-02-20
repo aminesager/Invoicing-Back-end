@@ -3,7 +3,7 @@ import { ResponseTaxDto } from 'src/modules/tax/dtos/tax.response.dto';
 
 export class CreateArticleExpenseQuotationEntryTaxDto {
   @ApiProperty({ example: 1, type: Number })
-  id: number;
+  id?: number;
 
   @ApiProperty({ example: 1, type: Number })
   articleExpenseQuotationEntryId?: number;

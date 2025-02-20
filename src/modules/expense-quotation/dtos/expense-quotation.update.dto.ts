@@ -13,5 +13,5 @@ export class UpdateExpenseQuotationDto extends CreateExpenseQuotationDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  createInvoice: boolean;
+  createExpenseInvoice: boolean;
 }

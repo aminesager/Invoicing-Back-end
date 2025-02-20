@@ -17,7 +17,7 @@ import { ExpenseQuotationMetaDataService } from './services/expense-quotation-me
 import { BankAccountModule } from '../bank-account/bank-account.module';
 import { StorageModule } from 'src/common/storage/storage.module';
 import { ExpenseQuotationUploadService } from './services/expense-quotation-upload.service';
-import { InvoiceModule } from '../invoice/invoice.module';
+import { ExpenseInvoiceModule } from '../expense-invoice/expense-invoice.module';
 
 @Module({
   controllers: [],
@@ -40,7 +40,7 @@ import { InvoiceModule } from '../invoice/invoice.module';
     CurrencyModule,
     FirmModule,
     InterlocutorModule,
-    InvoiceModule,
+    ExpenseInvoiceModule,
     TaxModule,
     //abstract modules
     PdfModule,

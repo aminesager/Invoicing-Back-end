@@ -5,7 +5,7 @@ export class CreateExpenseQuotationMetaDataDto {
   @ApiProperty({ example: true, type: Boolean })
   @IsBoolean()
   @IsOptional()
-  showInvoiceAddress?: boolean;
+  showExpenseInvoiceAddress?: boolean;
 
   @ApiProperty({ example: true, type: Boolean })
   @IsBoolean()

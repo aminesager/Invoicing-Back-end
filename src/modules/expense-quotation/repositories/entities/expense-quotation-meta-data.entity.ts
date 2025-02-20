@@ -14,7 +14,7 @@ export class ExpenseQuotationMetaDataEntity extends EntityHelper {
   expenseQuotation: ExpenseQuotationEntity;
 
   @Column({ type: 'boolean', default: true })
-  showInvoiceAddress: boolean;
+  showExpenseInvoiceAddress: boolean;
 
   @Column({ type: 'boolean', default: true })
   showDeliveryAddress: boolean;

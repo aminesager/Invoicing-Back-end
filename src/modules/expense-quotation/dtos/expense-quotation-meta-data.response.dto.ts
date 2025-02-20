@@ -5,7 +5,7 @@ export class ResponseExpenseQuotationMetaDataDto {
   id: number;
 
   @ApiProperty({ example: true, type: Boolean })
-  showInvoiceAddress: boolean;
+  showExpenseInvoiceAddress: boolean;
 
   @ApiProperty({ example: true, type: Boolean })
   showDeliveryAddress: boolean;

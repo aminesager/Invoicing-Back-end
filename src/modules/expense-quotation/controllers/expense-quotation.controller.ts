@@ -23,7 +23,7 @@ import { UpdateExpenseQuotationSequenceDto } from '../dtos/expense-quotation-seq
 import { DuplicateExpenseQuotationDto } from '../dtos/expense-quotation.duplicate.dto';
 import { ExpenseQuotationSequence } from '../interfaces/expense-quotation-sequence.interface';
 import { EXPENSE_QUOTATION_STATUS } from '../enums/expense-quotation-status.enum';
-import { InvoiceService } from 'src/modules/invoice/services/invoice.service';
+import { ExpenseInvoiceService } from 'src/modules/expense-invoice/services/expense-invoice.service';
 import { LogInterceptor } from 'src/common/logger/decorators/logger.interceptor';
 import { LogEvent } from 'src/common/logger/decorators/log-event.decorator';
 import { EVENT_TYPE } from 'src/app/enums/logger/event-types.enum';
@@ -38,7 +38,7 @@ import { Request as ExpressRequest } from 'express';
 export class ExpenseQuotationController {
   constructor(
     private readonly expenseQuotationService: ExpenseQuotationService,
-    private readonly invoiceService: InvoiceService,
+    private readonly expenseInvoiceService: ExpenseInvoiceService,
   ) {}
 
   @Get('/all')
@@ -138,14 +138,14 @@ export class ExpenseQuotationController {
     type: 'boolean',
     required: false,
   })
-  @Put('/invoice/:id/:create')
+  @Put('/expense-invoice/:id/:create')
   @LogEvent(EVENT_TYPE.EXPENSE_QUOTATION_INVOICED)
   async invoice(
     @Param('id') id: number,
     @Param('create') create: boolean,
     @Request() req: ExpressRequest,
   ): Promise<ResponseExpenseQuotationDto> {
-    req.logInfo = { expenseQuotationId: id, invoiceId: null };
+    req.logInfo = { expenseQuotationId: id, expenseInvoiceId: null };
     const expenseQuotation =
       await this.expenseQuotationService.findOneByCondition({
         filter: `id||$eq||${id}`,
@@ -160,9 +160,9 @@ export class ExpenseQuotationController {
       expenseQuotation.status === EXPENSE_QUOTATION_STATUS.Invoiced ||
       create
     ) {
-      const invoice =
-        await this.invoiceService.saveFromQuotation(expenseQuotation);
-      req.logInfo.invoiceId = invoice.id;
+      const expenseInvoice =
+        await this.expenseInvoiceService.saveFromQuotation(expenseQuotation);
+      req.logInfo.expenseInvoiceId = expenseInvoice.id;
     }
     await this.expenseQuotationService.updateStatus(
       id,
