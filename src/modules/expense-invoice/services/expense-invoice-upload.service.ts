@@ -104,7 +104,7 @@ export class ExpenseInvoiceUploadService {
     ids: number[],
     expenseInvoiceId: number,
   ): Promise<ExpenseInvoiceUploadEntity[]> {
-    const duplicatedInvoiceUploads = await Promise.all(
+    const duplicatedExpenseInvoiceUploads = await Promise.all(
       ids.map((id) => this.duplicate(id, expenseInvoiceId)),
     );
     return duplicatedExpenseInvoiceUploads;

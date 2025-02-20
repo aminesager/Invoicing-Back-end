@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, StreamableFile } from '@nestjs/common';
 import { PageDto } from 'src/common/database/dtos/database.page.dto';
 import { PageMetaDto } from 'src/common/database/dtos/database.page-meta.dto';
@@ -29,7 +30,7 @@ import { DuplicateExpenseInvoiceDto } from '../dtos/expense-invoice.duplicate.dt
 import { EXPENSE_INVOICE_STATUS } from '../enums/expense-invoice-status.enum';
 import { UpdateExpenseInvoiceSequenceDto } from '../dtos/expense-invoice-seqence.update.dto';
 import { ExpenseInvoiceSequence } from '../interfaces/expense-invoice-sequence.interface';
-import { QuotationEntity } from 'src/modules/quotation/repositories/entities/quotation.entity';
+import { ExpenseQuotationEntity } from 'src/modules/expense-quotation/repositories/entities/expense-quotation.entity';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { TaxWithholdingService } from 'src/modules/tax-withholding/services/tax-withholding.service';
 import { ciel } from 'src/utils/number.utils';
@@ -101,7 +102,7 @@ export class ExpenseInvoiceService {
     }
   }
 
-  async findOneById(id: number): Promise<InvoiceEntity> {
+  async findOneById(id: number): Promise<ExpenseInvoiceEntity> {
     const expenseInvoice = await this.expenseInvoiceRepository.findOneById(id);
     if (!expenseInvoice) {
       throw new ExpenseInvoiceNotFoundException();
@@ -274,7 +275,7 @@ export class ExpenseInvoiceService {
 
     // Save invoice metadata
     const expenseInvoiceMetaData =
-      await this.expenseInvoiceMetaDataService.save({
+      await this.ExpenseInvoiceMetaDataService.save({
         ...createExpenseInvoiceDto.expenseInvoiceMetaData,
         taxSummary,
       });
@@ -375,7 +376,7 @@ export class ExpenseInvoiceService {
     const { uploads: existingUploads, ...existingExpenseInvoice } =
       await this.findOneByCondition({
         filter: `id||$eq||${id}`,
-        join: 'articleInvoiceEntries,invoiceMetaData,uploads,taxWithholding',
+        join: 'articleExpenseInvoiceEntries,ExpenseInvoiceMetaData,uploads,taxWithholding',
       });
 
     // Fetch and validate related entities
@@ -460,7 +461,7 @@ export class ExpenseInvoiceService {
 
     // Save or update the invoice metadata with the updated tax summary
     const expenseInvoiceMetaData =
-      await this.expenseInvoiceMetaDataService.save({
+      await this.ExpenseInvoiceMetaDataService.save({
         ...existingExpenseInvoice.expenseInvoiceMetaData,
         ...updateExpenseInvoiceDto.expenseInvoiceMetaData,
         taxSummary,
@@ -523,7 +524,7 @@ export class ExpenseInvoiceService {
   async duplicate(
     duplicateExpenseInvoiceDto: DuplicateExpenseInvoiceDto,
   ): Promise<ResponseExpenseInvoiceDto> {
-    const existingInvoice = await this.findOneByCondition({
+    const existingExpenseInvoice = await this.findOneByCondition({
       filter: `id||$eq||${duplicateExpenseInvoiceDto.id}`,
       join: new String().concat(
         'expenseInvoiceMetaData,',
@@ -533,12 +534,12 @@ export class ExpenseInvoiceService {
       ),
     });
     const expenseInvoiceMetaData =
-      await this.expenseInvoiceMetaDataService.duplicate(
+      await this.ExpenseInvoiceMetaDataService.duplicate(
         existingExpenseInvoice.expenseInvoiceMetaData.id,
       );
     const sequential = await this.expenseInvoiceSequenceService.getSequential();
     const expenseInvoice = await this.expenseInvoiceRepository.save({
-      ...existingInvoice,
+      ...existingExpenseInvoice,
       id: undefined,
       sequential,
       expenseInvoiceMetaData,
@@ -548,15 +549,17 @@ export class ExpenseInvoiceService {
       status: EXPENSE_INVOICE_STATUS.Draft,
     });
 
-    const articleInvoiceEntries =
+    const articleExpenseInvoiceEntries =
       await this.articleExpenseInvoiceEntryService.duplicateMany(
-        existingInvoice.articleExpenseInvoiceEntries.map((entry) => entry.id),
+        existingExpenseInvoice.articleExpenseInvoiceEntries.map(
+          (entry) => entry.id,
+        ),
         expenseInvoice.id,
       );
 
     const uploads = duplicateExpenseInvoiceDto.includeFiles
       ? await this.expenseInvoiceUploadService.duplicateMany(
-          existingInvoice.uploads.map((upload) => upload.id),
+          existingExpenseInvoice.uploads.map((upload) => upload.id),
           expenseInvoice.id,
         )
       : [];
@@ -569,12 +572,12 @@ export class ExpenseInvoiceService {
   }
 
   async updateMany(
-    updateInvoiceDtos: UpdateExpenseInvoiceDto[],
+    updateExpenseInvoiceDtos: UpdateExpenseInvoiceDto[],
   ): Promise<ExpenseInvoiceEntity[]> {
-    return this.expenseInvoiceRepository.updateMany(updateInvoiceDtos);
+    return this.expenseInvoiceRepository.updateMany(updateExpenseInvoiceDtos);
   }
 
-  async updateInvoiceSequence(
+  async updateExpenseInvoiceSequence(
     updatedSequenceDto: UpdateExpenseInvoiceSequenceDto,
   ): Promise<ExpenseInvoiceSequence> {
     return (await this.expenseInvoiceSequenceService.set(updatedSequenceDto))

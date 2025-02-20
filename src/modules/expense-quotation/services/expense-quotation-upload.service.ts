@@ -80,34 +80,34 @@ export class ExpenseQuotationUploadService {
 
   async duplicate(
     id: number,
-    quotationId: number,
+    expenseQuotationId: number,
   ): Promise<ExpenseQuotationUploadEntity> {
     //Find the original quotation upload entity
-    const originalQuotationUpload = await this.findOneById(id);
+    const originalExpenseQuotationUpload = await this.findOneById(id);
 
     //Use the StorageService to duplicate the file
     const duplicatedUpload = await this.storageService.duplicate(
-      originalQuotationUpload.uploadId,
+      originalExpenseQuotationUpload.uploadId,
     );
 
     //Save the duplicated QuotationUploadEntity
-    const duplicatedQuotationUpload =
+    const duplicatedExpenseQuotationUpload =
       await this.expenseQuotationUploadRepository.save({
-        expenseQuotationId: quotationId,
+        expenseQuotationId: expenseQuotationId,
         uploadId: duplicatedUpload.id,
       });
 
-    return duplicatedQuotationUpload;
+    return duplicatedExpenseQuotationUpload;
   }
 
   async duplicateMany(
     ids: number[],
-    quotationId: number,
+    expenseQuotationId: number,
   ): Promise<ExpenseQuotationUploadEntity[]> {
-    const duplicatedQuotationUploads = await Promise.all(
-      ids.map((id) => this.duplicate(id, quotationId)),
+    const duplicatedExpenseQuotationUploads = await Promise.all(
+      ids.map((id) => this.duplicate(id, expenseQuotationId)),
     );
-    return duplicatedQuotationUploads;
+    return duplicatedExpenseQuotationUploads;
   }
 
   async softDelete(id: number): Promise<ExpenseQuotationUploadEntity> {
@@ -118,13 +118,13 @@ export class ExpenseQuotationUploadService {
   }
 
   async softDeleteMany(
-    quotationUploadEntities: ExpenseQuotationUploadEntity[],
+    ExpenseQuotationUploadEntities: ExpenseQuotationUploadEntity[],
   ): Promise<ExpenseQuotationUploadEntity[]> {
     this.storageService.deleteMany(
-      quotationUploadEntities.map((qu) => qu.upload.id),
+      ExpenseQuotationUploadEntities.map((qu) => qu.upload.id),
     );
     return this.expenseQuotationUploadRepository.softDeleteMany(
-      quotationUploadEntities.map((qu) => qu.id),
+      ExpenseQuotationUploadEntities.map((qu) => qu.id),
     );
   }
 

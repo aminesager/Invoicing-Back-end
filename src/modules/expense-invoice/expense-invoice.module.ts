@@ -49,4 +49,4 @@ import { TaxWithholdingModule } from '../tax-withholding/tax-withholding.module'
     StorageModule,
   ],
 })
-export class InvoiceModule {}
+export class ExpenseInvoiceModule {}

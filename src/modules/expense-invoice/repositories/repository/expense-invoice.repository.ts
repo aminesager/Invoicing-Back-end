@@ -10,9 +10,9 @@ import { ExpenseInvoiceEntity } from '../entities/expense-invoice.entity';
 export class ExpenseInvoiceRepository extends DatabaseAbstractRepository<ExpenseInvoiceEntity> {
   constructor(
     @InjectRepository(ExpenseInvoiceEntity)
-    private readonly invoiceRepository: Repository<ExpenseInvoiceEntity>,
+    private readonly expenseInvoiceRepository: Repository<ExpenseInvoiceEntity>,
     txHost: TransactionHost<TransactionalAdapterTypeOrm>,
   ) {
-    super(invoiceRepository, txHost);
+    super(expenseInvoiceRepository, txHost);
   }
 }

@@ -208,7 +208,7 @@ export class ArticleExpenseInvoiceEntryService {
     // Fetch the existing entry
     const existingEntry = await this.findOneByCondition({
       filter: `id||$eq||${id}`,
-      join: 'articleInvoiceEntryTaxes',
+      join: 'articleExpenseInvoiceEntryTaxes',
     });
 
     // Duplicate the taxes associated with this entry
