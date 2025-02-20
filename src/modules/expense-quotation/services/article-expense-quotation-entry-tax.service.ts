@@ -18,7 +18,7 @@ export class ArticleExpenseQuotationEntryTaxService {
       createArticleQuotationEntryTaxDto.taxId,
     );
     const taxEntry = await this.articleQuotationEntryTaxRepository.save({
-      articleQuotationEntryId:
+      articleExpenseQuotationEntryId:
         createArticleQuotationEntryTaxDto.articleExpenseQuotationEntryId,
       tax,
     });

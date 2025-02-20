@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ArticleExpenseQuotationEntryEntity } from '../repositories/entities/article-expense-quotation-entry.entity';
 import { CreateArticleExpenseQuotationEntryDto } from '../dtos/article-expense-quotation-entry.create.dto';
+import { CreateArticleExpenseQuotationEntryTaxDto } from '../dtos/article-expense-quotation-entry-tax.create.dto';
 import { TaxService } from 'src/modules/tax/services/tax.service';
 import { ArticleService } from 'src/modules/article/services/article.service';
 import { ResponseArticleDto } from 'src/modules/article/dtos/article.response.dto';
@@ -114,7 +115,7 @@ export class ArticleExpenseQuotationEntryService {
       taxes.map((tax) => {
         return {
           taxId: tax.id,
-          articleQuotationEntryId: entry.id,
+          articleExpenseQuotationEntryId: entry.id,
         };
       }),
     );
