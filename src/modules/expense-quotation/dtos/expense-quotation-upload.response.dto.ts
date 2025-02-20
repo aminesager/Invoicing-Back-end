@@ -8,7 +8,7 @@ export class ResponseExpenseQuotationUploadDto {
     example: 1,
     type: Number,
   })
-  ExpensequotationId?: number;
+  expensequotationId?: number;
 
   @ApiProperty({
     example: 1,

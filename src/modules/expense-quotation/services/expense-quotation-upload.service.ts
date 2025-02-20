@@ -12,12 +12,12 @@ import { StorageService } from 'src/common/storage/services/storage.service';
 @Injectable()
 export class ExpenseQuotationUploadService {
   constructor(
-    private readonly quotationUploadRepository: ExpenseQuotationUploadRepository,
+    private readonly expenseQuotationUploadRepository: ExpenseQuotationUploadRepository,
     private readonly storageService: StorageService,
   ) {}
 
   async findOneById(id: number): Promise<ExpenseQuotationUploadEntity> {
-    const upload = await this.quotationUploadRepository.findOneById(id);
+    const upload = await this.expenseQuotationUploadRepository.findOneById(id);
     if (!upload) {
       throw new ExpenseQuotationUploadNotFoundException();
     }
@@ -29,7 +29,7 @@ export class ExpenseQuotationUploadService {
   ): Promise<ExpenseQuotationUploadEntity | null> {
     const queryBuilder = new QueryBuilder();
     const queryOptions = queryBuilder.build(query);
-    const upload = await this.quotationUploadRepository.findOne(
+    const upload = await this.expenseQuotationUploadRepository.findOne(
       queryOptions as FindOneOptions<ExpenseQuotationUploadEntity>,
     );
     if (!upload) return null;
@@ -39,7 +39,7 @@ export class ExpenseQuotationUploadService {
   async findAll(query: IQueryObject): Promise<ExpenseQuotationUploadEntity[]> {
     const queryBuilder = new QueryBuilder();
     const queryOptions = queryBuilder.build(query);
-    return await this.quotationUploadRepository.findAll(
+    return await this.expenseQuotationUploadRepository.findAll(
       queryOptions as FindManyOptions<ExpenseQuotationUploadEntity>,
     );
   }
@@ -49,11 +49,11 @@ export class ExpenseQuotationUploadService {
   ): Promise<PageDto<ExpenseQuotationUploadEntity>> {
     const queryBuilder = new QueryBuilder();
     const queryOptions = queryBuilder.build(query);
-    const count = await this.quotationUploadRepository.getTotalCount({
+    const count = await this.expenseQuotationUploadRepository.getTotalCount({
       where: queryOptions.where,
     });
 
-    const entities = await this.quotationUploadRepository.findAll(
+    const entities = await this.expenseQuotationUploadRepository.findAll(
       queryOptions as FindManyOptions<ExpenseQuotationUploadEntity>,
     );
 
@@ -72,7 +72,7 @@ export class ExpenseQuotationUploadService {
     expenseQuotationId: number,
     uploadId: number,
   ): Promise<ExpenseQuotationUploadEntity> {
-    return this.quotationUploadRepository.save({
+    return this.expenseQuotationUploadRepository.save({
       expenseQuotationId,
       uploadId,
     });
@@ -91,12 +91,11 @@ export class ExpenseQuotationUploadService {
     );
 
     //Save the duplicated QuotationUploadEntity
-    const duplicatedQuotationUpload = await this.quotationUploadRepository.save(
-      {
+    const duplicatedQuotationUpload =
+      await this.expenseQuotationUploadRepository.save({
         expenseQuotationId: quotationId,
         uploadId: duplicatedUpload.id,
-      },
-    );
+      });
 
     return duplicatedQuotationUpload;
   }
@@ -114,7 +113,7 @@ export class ExpenseQuotationUploadService {
   async softDelete(id: number): Promise<ExpenseQuotationUploadEntity> {
     const upload = await this.findOneById(id);
     this.storageService.delete(upload.uploadId);
-    this.quotationUploadRepository.softDelete(upload.id);
+    this.expenseQuotationUploadRepository.softDelete(upload.id);
     return upload;
   }
 
@@ -124,16 +123,16 @@ export class ExpenseQuotationUploadService {
     this.storageService.deleteMany(
       quotationUploadEntities.map((qu) => qu.upload.id),
     );
-    return this.quotationUploadRepository.softDeleteMany(
+    return this.expenseQuotationUploadRepository.softDeleteMany(
       quotationUploadEntities.map((qu) => qu.id),
     );
   }
 
   async deleteAll() {
-    return this.quotationUploadRepository.deleteAll();
+    return this.expenseQuotationUploadRepository.deleteAll();
   }
 
   async getTotal(): Promise<number> {
-    return this.quotationUploadRepository.getTotalCount();
+    return this.expenseQuotationUploadRepository.getTotalCount();
   }
 }

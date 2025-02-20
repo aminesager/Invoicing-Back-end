@@ -114,7 +114,7 @@ export class ExpenseQuotationController {
     return expenseQuotation;
   }
 
-  @Put('/update-quotation-sequences')
+  @Put('/update-expense-quotation-sequences')
   @ApiParam({
     name: 'id',
     type: 'number',

@@ -7,29 +7,29 @@ import { ArticleExpenseQuotationEntryTaxRepository } from '../repositories/repos
 @Injectable()
 export class ArticleExpenseQuotationEntryTaxService {
   constructor(
-    private readonly articleQuotationEntryTaxRepository: ArticleExpenseQuotationEntryTaxRepository,
+    private readonly articleExpenseQuotationEntryTaxRepository: ArticleExpenseQuotationEntryTaxRepository,
     private readonly taxService: TaxService,
   ) {}
 
   async save(
-    createArticleQuotationEntryTaxDto: CreateArticleExpenseQuotationEntryTaxDto,
+    createArticleExpenseQuotationEntryTaxDto: CreateArticleExpenseQuotationEntryTaxDto,
   ): Promise<ArticleExpenseQuotationEntryTaxEntity> {
     const tax = await this.taxService.findOneById(
-      createArticleQuotationEntryTaxDto.taxId,
+      createArticleExpenseQuotationEntryTaxDto.taxId,
     );
-    const taxEntry = await this.articleQuotationEntryTaxRepository.save({
+    const taxEntry = await this.articleExpenseQuotationEntryTaxRepository.save({
       articleExpenseQuotationEntryId:
-        createArticleQuotationEntryTaxDto.articleExpenseQuotationEntryId,
+        createArticleExpenseQuotationEntryTaxDto.articleExpenseQuotationEntryId,
       tax,
     });
     return taxEntry;
   }
 
   async saveMany(
-    createArticleQuotationEntryTaxDtos: CreateArticleExpenseQuotationEntryTaxDto[],
+    createArticleExpenseQuotationEntryTaxDto: CreateArticleExpenseQuotationEntryTaxDto[],
   ): Promise<ArticleExpenseQuotationEntryTaxEntity[]> {
     const savedEntries = [];
-    for (const dto of createArticleQuotationEntryTaxDtos) {
+    for (const dto of createArticleExpenseQuotationEntryTaxDto) {
       const savedEntry = await this.save(dto);
       savedEntries.push(savedEntry);
     }
@@ -37,7 +37,7 @@ export class ArticleExpenseQuotationEntryTaxService {
   }
 
   async softDelete(id: number): Promise<void> {
-    await this.articleQuotationEntryTaxRepository.softDelete(id);
+    await this.articleExpenseQuotationEntryTaxRepository.softDelete(id);
   }
 
   async softDeleteMany(ids: number[]): Promise<void> {

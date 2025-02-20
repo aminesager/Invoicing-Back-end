@@ -243,7 +243,7 @@ export class ExpenseQuotationService {
       bankAccountId: bankAccount ? bankAccount.id : null,
       currencyId: currency ? currency.id : firm.currencyId,
       sequential,
-      articleQuotationEntries: articleEntries,
+      articleExpenseQuotationEntries: articleEntries,
       expenseQuotationMetaData,
       subTotal,
       total: totalAfterGeneralDiscount,
@@ -478,9 +478,10 @@ export class ExpenseQuotationService {
     id: number,
     status: EXPENSE_QUOTATION_STATUS,
   ): Promise<ExpenseQuotationEntity> {
-    const quotation = await this.expenseQuotationRepository.findOneById(id);
+    const expenseQuotation =
+      await this.expenseQuotationRepository.findOneById(id);
     return this.expenseQuotationRepository.save({
-      id: quotation.id,
+      id: expenseQuotation.id,
       status,
     });
   }
@@ -510,14 +511,15 @@ export class ExpenseQuotationService {
           status: EXPENSE_QUOTATION_STATUS.Sent,
         },
       });
-    const quotationsToExpire = expiredExpenseQuotations.filter((quotation) =>
-      isAfter(currentDate, new Date(quotation.dueDate)),
+    const expenseQuotationsToExpire = expiredExpenseQuotations.filter(
+      (expenseQuotation) =>
+        isAfter(currentDate, new Date(expenseQuotation.dueDate)),
     );
 
-    if (quotationsToExpire.length) {
-      for (const quotation of quotationsToExpire) {
-        quotation.status = EXPENSE_QUOTATION_STATUS.Expired;
-        await this.expenseQuotationRepository.save(quotation);
+    if (expenseQuotationsToExpire.length) {
+      for (const expenseQuotation of expenseQuotationsToExpire) {
+        expenseQuotation.status = EXPENSE_QUOTATION_STATUS.Expired;
+        await this.expenseQuotationRepository.save(expenseQuotation);
       }
     }
   }

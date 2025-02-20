@@ -38,8 +38,8 @@ export class ExpenseQuotationSequenceService {
     const sequence = await this.get();
     this.set({ ...sequence.value, next: sequence.value.next + 1 });
     this.wsGateway.sendToRoom(
-      WSRoom.QUOTATION_SEQUENCE,
-      'quotation-sequence-updated',
+      WSRoom.EXPENSE_QUOTATION_SEQUENCE,
+      'expense-quotation-sequence-updated',
       {
         value: sequence.value.next + 1,
       },

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ExpenseQuotationMetaDataRepository } from '../repositories/repository/expense-quotation-meta-data-repository';
 import { ExpenseQuotationMetaDataEntity } from '../repositories/entities/expense-quotation-meta-data.entity';
-import { ExpenseQuotationMetaDataNotFoundException } from '../errors/expense-quotation-meta-data.notfound.error';
+import { ExpenseQuotationMetaDataNotFoundException } from '../errors/expense-quoation-meta-data.notfound.error';
 import { IQueryObject } from 'src/common/database/interfaces/database-query-options.interface';
 import { ResponseExpenseQuotationMetaDataDto } from '../dtos/expense-quotation-meta-data.response.dto';
 import { QueryBuilder } from 'src/common/database/utils/database-query-builder';

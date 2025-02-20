@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ArticleExpenseQuotationEntryEntity } from '../repositories/entities/article-expense-quotation-entry.entity';
 import { CreateArticleExpenseQuotationEntryDto } from '../dtos/article-expense-quotation-entry.create.dto';
-import { CreateArticleExpenseQuotationEntryTaxDto } from '../dtos/article-expense-quotation-entry-tax.create.dto';
 import { TaxService } from 'src/modules/tax/services/tax.service';
 import { ArticleService } from 'src/modules/article/services/article.service';
 import { ResponseArticleDto } from 'src/modules/article/dtos/article.response.dto';
@@ -193,7 +192,7 @@ export class ArticleExpenseQuotationEntryService {
 
   async duplicate(
     id: number,
-    quotationId: number,
+    expenseQuotationId: number,
   ): Promise<ArticleExpenseQuotationEntryEntity> {
     // Fetch the existing entry
     const existingEntry = await this.findOneByCondition({
@@ -211,7 +210,7 @@ export class ArticleExpenseQuotationEntryService {
     // Create the duplicated entry
     const duplicatedEntry = {
       ...existingEntry,
-      quotationId: quotationId,
+      expenseQuotationId: expenseQuotationId,
       id: undefined,
       articleExpenseQuotationEntryTaxes: duplicatedTaxes, // Attach duplicated taxes
       createdAt: undefined,
@@ -235,11 +234,11 @@ export class ArticleExpenseQuotationEntryService {
 
   async duplicateMany(
     ids: number[],
-    quotationId: number,
+    expenseQuotationId: number,
   ): Promise<ArticleExpenseQuotationEntryEntity[]> {
     const duplicatedEntries = [];
     for (const id of ids) {
-      const duplicatedEntry = await this.duplicate(id, quotationId);
+      const duplicatedEntry = await this.duplicate(id, expenseQuotationId);
       duplicatedEntries.push(duplicatedEntry);
     }
     return duplicatedEntries;
