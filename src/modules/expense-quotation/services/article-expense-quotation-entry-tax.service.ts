@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TaxService } from 'src/modules/tax/services/tax.service';
+import { CreateArticleExpenseQuotationEntryTaxDto } from '../dtos/article-expense-quotation-entry-tax.create.dto';
 import { ArticleExpenseQuotationEntryTaxEntity } from '../repositories/entities/article-expense-quotation-entry-tax.entity';
-import { CreateArticleExpenseQuotationEntryTaxDto } from '../dtos/article-expense-quotation-entry-tax.response.dto';
 import { ArticleExpenseQuotationEntryTaxRepository } from '../repositories/repository/article-expense-quotation-entry-tax.repository';
 
 @Injectable()
@@ -26,10 +26,10 @@ export class ArticleExpenseQuotationEntryTaxService {
   }
 
   async saveMany(
-    createArticleExpenseQuotationEntryTaxDto: CreateArticleExpenseQuotationEntryTaxDto[],
+    createArticleExpenseQuotationEntryTaxDtos: CreateArticleExpenseQuotationEntryTaxDto[],
   ): Promise<ArticleExpenseQuotationEntryTaxEntity[]> {
     const savedEntries = [];
-    for (const dto of createArticleExpenseQuotationEntryTaxDto) {
+    for (const dto of createArticleExpenseQuotationEntryTaxDtos) {
       const savedEntry = await this.save(dto);
       savedEntries.push(savedEntry);
     }

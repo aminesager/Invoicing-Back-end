@@ -90,7 +90,7 @@ export class ExpenseQuotationUploadService {
       originalExpenseQuotationUpload.uploadId,
     );
 
-    //Save the duplicated QuotationUploadEntity
+    //Save the duplicated ExpenseQuotationUploadEntity
     const duplicatedExpenseQuotationUpload =
       await this.expenseQuotationUploadRepository.save({
         expenseQuotationId: expenseQuotationId,
@@ -118,13 +118,13 @@ export class ExpenseQuotationUploadService {
   }
 
   async softDeleteMany(
-    ExpenseQuotationUploadEntities: ExpenseQuotationUploadEntity[],
+    expenseQuotationUploadEntities: ExpenseQuotationUploadEntity[],
   ): Promise<ExpenseQuotationUploadEntity[]> {
     this.storageService.deleteMany(
-      ExpenseQuotationUploadEntities.map((qu) => qu.upload.id),
+      expenseQuotationUploadEntities.map((qu) => qu.upload.id),
     );
     return this.expenseQuotationUploadRepository.softDeleteMany(
-      ExpenseQuotationUploadEntities.map((qu) => qu.id),
+      expenseQuotationUploadEntities.map((qu) => qu.id),
     );
   }
 

@@ -28,8 +28,8 @@ import { ExpenseQuotationSequence } from '../interfaces/expense-quotation-sequen
 import { UpdateExpenseQuotationSequenceDto } from '../dtos/expense-quotation-seqence.update.dto';
 import { Transactional } from '@nestjs-cls/transactional';
 import { DuplicateExpenseQuotationDto } from '../dtos/expense-quotation.duplicate.dto';
-import { Cron, CronExpression } from '@nestjs/schedule';
 import { EXPENSE_QUOTATION_STATUS } from '../enums/expense-quotation-status.enum';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class ExpenseQuotationService {
@@ -431,7 +431,7 @@ export class ExpenseQuotationService {
     const existingExpenseQuotation = await this.findOneByCondition({
       filter: `id||$eq||${duplicateExpenseQuotationDto.id}`,
       join: new String().concat(
-        'expenseExpenseQuotationMetaData,',
+        'expenseQuotationMetaData,',
         'articleExpenseQuotationEntries,',
         'articleExpenseQuotationEntries.articleExpenseQuotationEntryTaxes,',
         'uploads',

@@ -14,6 +14,7 @@ import { LineItem } from 'src/common/calculations/interfaces/line-item.interface
 import { IQueryObject } from 'src/common/database/interfaces/database-query-options.interface';
 import { QueryBuilder } from 'src/common/database/utils/database-query-builder';
 import { FindOneOptions } from 'typeorm';
+
 @Injectable()
 export class ArticleExpenseQuotationEntryService {
   constructor(
@@ -121,11 +122,22 @@ export class ArticleExpenseQuotationEntryService {
     return entry;
   }
 
+  async saveMany(
+    createArticleExpenseQuotationEntryDtos: CreateArticleExpenseQuotationEntryDto[],
+  ): Promise<ArticleExpenseQuotationEntryEntity[]> {
+    const savedEntries = [];
+    for (const dto of createArticleExpenseQuotationEntryDtos) {
+      const savedEntry = await this.save(dto);
+      savedEntries.push(savedEntry);
+    }
+    return savedEntries;
+  }
+
   async update(
     id: number,
     updateArticleExpenseQuotationEntryDto: UpdateArticleExpenseQuotationEntryDto,
   ): Promise<ArticleExpenseQuotationEntryEntity> {
-    // Fetch existing entry
+    //fetch exisiting entry
     const existingEntry =
       await this.articleExpenseQuotationEntryRepository.findOneById(id);
     this.articleExpenseQuotationEntryTaxService.softDeleteMany(
@@ -134,7 +146,7 @@ export class ArticleExpenseQuotationEntryService {
       ),
     );
 
-    // Fetch and check the existence of all taxes
+    //fetch and check the existance of all taxes
     const taxes = updateArticleExpenseQuotationEntryDto.taxes
       ? await Promise.all(
           updateArticleExpenseQuotationEntryDto.taxes.map((id) =>
@@ -143,12 +155,12 @@ export class ArticleExpenseQuotationEntryService {
         )
       : [];
 
-    // Delete all existing taxes and rebuild
+    //delete all existing taxes and rebuild
     for (const taxEntry of existingEntry.articleExpenseQuotationEntryTaxes) {
       this.articleExpenseQuotationEntryTaxService.softDelete(taxEntry.id);
     }
 
-    // Save and check the existence of the article, if a given article doesn't exist by name, it will be created
+    //save and check of articles existance , if a given article doesn't exist by name , it will be created
     let article: ResponseArticleDto;
     try {
       article = await this.articleService.findOneByCondition({
@@ -168,7 +180,7 @@ export class ArticleExpenseQuotationEntryService {
       taxes: taxes,
     };
 
-    // Update the entry with the new data and save it
+    //update the entry with the new data and save it
     const entry = await this.articleExpenseQuotationEntryRepository.save({
       ...existingEntry,
       ...updateArticleExpenseQuotationEntryDto,
@@ -177,8 +189,7 @@ export class ArticleExpenseQuotationEntryService {
       subTotal: this.calculationsService.calculateSubTotalForLineItem(lineItem),
       total: this.calculationsService.calculateTotalForLineItem(lineItem),
     });
-
-    // Save the new tax entries for the article entry
+    //save the new tax entries for the article entry
     await this.articleExpenseQuotationEntryTaxService.saveMany(
       taxes.map((tax) => {
         return {
