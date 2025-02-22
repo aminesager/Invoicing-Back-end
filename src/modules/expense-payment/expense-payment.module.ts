@@ -4,7 +4,7 @@ import { ExpensePaymentUploadService } from './services/expense-payment-upload.s
 import { ExpensePaymentInvoiceEntryService } from './services/expense-payment-invoice-entry.service';
 import { PaymentRepositoryModule } from './repositories/expense-payment.repository.module';
 import { StorageModule } from 'src/common/storage/storage.module';
-import { InvoiceModule } from '../invoice/invoice.module';
+import { ExpenseInvoiceModule } from '../expense-invoice/expense-invoice.module';
 import { CurrencyModule } from '../currency/currency.module';
 
 @Module({
@@ -18,8 +18,8 @@ import { CurrencyModule } from '../currency/currency.module';
   imports: [
     PaymentRepositoryModule,
     CurrencyModule,
-    InvoiceModule,
+    ExpenseInvoiceModule,
     StorageModule,
   ],
 })
-export class PaymentModule {}
+export class ExpensePaymentModule {}

@@ -8,9 +8,9 @@ import { ExpensePaymentInvoiceEntryEntity } from '../repositories/entities/expen
 import { ExpensePaymentInvoiceEntryNotFoundException } from '../errors/expense-payment-invoice-entry.notfound.error';
 import { CreateExpensePaymentInvoiceEntryDto } from '../dtos/expense-payment-invoice-entry.create.dto';
 import { UpdateExpensePaymentInvoiceEntryDto } from '../dtos/expense-payment-invoice-entry.update.dto';
-import { InvoiceService } from 'src/modules/invoice/services/invoice.service';
+import { ExpenseInvoiceService } from 'src/modules/expense-invoice/services/expense-invoice.service';
 import { Transactional } from '@nestjs-cls/transactional';
-import { INVOICE_STATUS } from 'src/modules/invoice/enums/invoice-status.enum';
+import { EXPENSE_INVOICE_STATUS } from 'src/modules/expense-invoice/enums/expense-invoice-status.enum';
 import { createDineroAmountFromFloatWithDynamicCurrency } from 'src/utils/money.utils';
 import * as dinero from 'dinero.js';
 
@@ -18,7 +18,7 @@ import * as dinero from 'dinero.js';
 export class ExpensePaymentInvoiceEntryService {
   constructor(
     private readonly expensePaymentInvoiceEntryRepository: ExpensePaymentInvoiceEntryRepository,
-    private readonly invoiceService: InvoiceService,
+    private readonly expenseInvoiceService: ExpenseInvoiceService,
   ) {}
 
   async findOneByCondition(
@@ -48,10 +48,12 @@ export class ExpensePaymentInvoiceEntryService {
   async save(
     createExpensePaymentInvoiceEntryDto: CreateExpensePaymentInvoiceEntryDto,
   ): Promise<ExpensePaymentInvoiceEntryEntity> {
-    const existingInvoice = await this.invoiceService.findOneByCondition({
-      filter: `id||$eq||${createExpensePaymentInvoiceEntryDto.expenseInvoiceId}`,
-      join: 'currency',
-    });
+    const existingInvoice = await this.expenseInvoiceService.findOneByCondition(
+      {
+        filter: `id||$eq||${createExpensePaymentInvoiceEntryDto.expenseInvoiceId}`,
+        join: 'currency',
+      },
+    );
 
     const zero = dinero({
       amount: createDineroAmountFromFloatWithDynamicCurrency(
@@ -96,12 +98,12 @@ export class ExpensePaymentInvoiceEntryService {
     });
 
     const newInvoiceStatus = totalAmountPaid.equalsTo(zero)
-      ? INVOICE_STATUS.Unpaid
+      ? EXPENSE_INVOICE_STATUS.Unpaid
       : totalAmountPaid.add(taxWithholdingAmount).equalsTo(invoiceTotal)
-        ? INVOICE_STATUS.Paid
-        : INVOICE_STATUS.PartiallyPaid;
+        ? EXPENSE_INVOICE_STATUS.Paid
+        : EXPENSE_INVOICE_STATUS.PartiallyPaid;
 
-    await this.invoiceService.updateFields(existingInvoice.id, {
+    await this.expenseInvoiceService.updateFields(existingInvoice.id, {
       amountPaid: totalAmountPaid.toUnit(),
       status: newInvoiceStatus,
     });
@@ -130,10 +132,12 @@ export class ExpensePaymentInvoiceEntryService {
   ): Promise<ExpensePaymentInvoiceEntryEntity> {
     const existingEntry = await this.findOneById(id);
 
-    const existingInvoice = await this.invoiceService.findOneByCondition({
-      filter: `id||$eq||${existingEntry.expenseInvoiceId}`,
-      join: 'currency',
-    });
+    const existingInvoice = await this.expenseInvoiceService.findOneByCondition(
+      {
+        filter: `id||$eq||${existingEntry.expenseInvoiceId}`,
+        join: 'currency',
+      },
+    );
 
     const currentAmountPaid = dinero({
       amount: createDineroAmountFromFloatWithDynamicCurrency(
@@ -188,12 +192,12 @@ export class ExpensePaymentInvoiceEntryService {
     });
 
     const newInvoiceStatus = newAmountPaid.equalsTo(zero)
-      ? INVOICE_STATUS.Unpaid
+      ? EXPENSE_INVOICE_STATUS.Unpaid
       : newAmountPaid.add(taxWithholdingAmount).equalsTo(invoiceTotal)
-        ? INVOICE_STATUS.Paid
-        : INVOICE_STATUS.PartiallyPaid;
+        ? EXPENSE_INVOICE_STATUS.Paid
+        : EXPENSE_INVOICE_STATUS.PartiallyPaid;
 
-    await this.invoiceService.updateFields(existingInvoice.id, {
+    await this.expenseInvoiceService.updateFields(existingInvoice.id, {
       amountPaid: newAmountPaid.toUnit(),
       status: newInvoiceStatus,
     });
@@ -211,10 +215,12 @@ export class ExpensePaymentInvoiceEntryService {
       join: 'payment',
     });
 
-    const existingInvoice = await this.invoiceService.findOneByCondition({
-      filter: `id||$eq||${existingEntry.invoiceId}`,
-      join: 'currency',
-    });
+    const existingInvoice = await this.expenseInvoiceService.findOneByCondition(
+      {
+        filter: `id||$eq||${existingEntry.invoiceId}`,
+        join: 'currency',
+      },
+    );
 
     const zero = dinero({
       amount: createDineroAmountFromFloatWithDynamicCurrency(
@@ -259,12 +265,12 @@ export class ExpensePaymentInvoiceEntryService {
     });
 
     const newInvoiceStatus = updatedAmountPaid.equalsTo(zero)
-      ? INVOICE_STATUS.Unpaid
+      ? EXPENSE_INVOICE_STATUS.Unpaid
       : updatedAmountPaid.add(taxWithholdingAmount).equalsTo(invoiceTotal)
-        ? INVOICE_STATUS.Paid
-        : INVOICE_STATUS.PartiallyPaid;
+        ? EXPENSE_INVOICE_STATUS.Paid
+        : EXPENSE_INVOICE_STATUS.PartiallyPaid;
 
-    await this.invoiceService.updateFields(existingInvoice.id, {
+    await this.expenseInvoiceService.updateFields(existingInvoice.id, {
       amountPaid: updatedAmountPaid.toUnit(),
       status: newInvoiceStatus,
     });

@@ -22,8 +22,6 @@ import { CurrencyController } from 'src/modules/currency/controllers/currency.co
 import { CurrencyModule } from 'src/modules/currency/currency.module';
 import { DefaultConditionController } from 'src/modules/default-condition/controllers/default-condition.controller';
 import { DefaultConditionModule } from 'src/modules/default-condition/default-condition.module';
-import { ExpenseInvoiceController } from 'src/modules/expense-invoice-test-api/controllers/expense-invoice.controller';
-import { ExpenseInvoiceModule } from 'src/modules/expense-invoice-test-api/expense-invoice.module';
 import { FirmInterlocutorEntryController } from 'src/modules/firm-interlocutor-entry/controllers/firm-interlocutor-entry.controller.ts';
 import { FirmInterlocutorEntryModule } from 'src/modules/firm-interlocutor-entry/firm-interlocutor-entry.module';
 import { FirmController } from 'src/modules/firm/controllers/firm.controller';
@@ -48,10 +46,18 @@ import { TaxController } from 'src/modules/tax/controllers/tax.controller';
 import { TaxModule } from 'src/modules/tax/tax.module';
 import { UserController } from 'src/modules/user/controllers/user.controller';
 import { UsersModule } from 'src/modules/user/user.module';
+import { ExpenseInvoiceController } from 'src/modules/expense-invoice/controllers/expense-invoice.controller';
+import { ExpenseQuotationController } from 'src/modules/expense-quotation/controllers/expense-quotation.controller';
+import { ExpensePaymentController } from 'src/modules/expense-payment/controllers/expense-payment.controller';
+import { ExpenseInvoiceModule } from 'src/modules/expense-invoice/expense-invoice.module';
+import { ExpenseQuotationModule } from 'src/modules/expense-quotation/expense-quotation.module';
+import { ExpensePaymentModule } from 'src/modules/expense-payment/expense-payment.module';
 
 @Module({
   controllers: [
     ExpenseInvoiceController,
+    ExpensePaymentController,
+    ExpenseQuotationController,
     AuthController,
     ActivityController,
     AddressController,
@@ -79,6 +85,8 @@ import { UsersModule } from 'src/modules/user/user.module';
   providers: [],
   exports: [],
   imports: [
+    ExpenseQuotationModule,
+    ExpensePaymentModule,
     ExpenseInvoiceModule,
     LoggerModule,
     AuthModule,
