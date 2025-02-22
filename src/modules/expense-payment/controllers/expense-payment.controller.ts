@@ -23,10 +23,10 @@ import { EVENT_TYPE } from 'src/app/enums/logger/event-types.enum';
 import { LogEvent } from 'src/common/logger/decorators/log-event.decorator';
 import { Request as ExpressRequest } from 'express';
 
-@ApiTags('payment')
+@ApiTags('expense-payment')
 @Controller({
   version: '1',
-  path: '/payment',
+  path: '/expense-payment',
 })
 @UseInterceptors(LogInterceptor)
 export class ExpensePaymentController {
