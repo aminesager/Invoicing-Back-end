@@ -90,7 +90,7 @@ export class ExpensePaymentService {
       expensePayment.currencyId,
     );
     const invoiceEntries = await Promise.all(
-      createExpensePaymentDto.invoices.map(async (entry) => {
+      createExpensePaymentDto.expenseInvoices.map(async (entry) => {
         const invoice = await this.expenseInvoiceService.findOneById(
           entry.expenseInvoiceId,
         );
@@ -125,10 +125,10 @@ export class ExpensePaymentService {
   ): Promise<ExpensePaymentEntity> {
     const existingExpensePayment = await this.findOneByCondition({
       filter: `id||$eq||${id}`,
-      join: 'invoices,uploads',
+      join: 'expenseInvoices,uploads',
     });
     await this.expensePaymentInvoiceEntryService.softDeleteMany(
-      existingExpensePayment.invoices.map((entry) => entry.id),
+      existingExpensePayment.expenseInvoices.map((entry) => entry.id),
     );
 
     // Handle uploads - manage existing, new, and eliminated uploads
@@ -158,7 +158,7 @@ export class ExpensePaymentService {
     );
 
     const invoiceEntries = await Promise.all(
-      updateExpensePaymentDto.invoices.map(async (entry) => {
+      updateExpensePaymentDto.expenseInvoices.map(async (entry) => {
         const invoice = await this.expenseInvoiceService.findOneById(
           entry.expenseInvoiceId,
         );
@@ -184,10 +184,10 @@ export class ExpensePaymentService {
   async softDelete(id: number): Promise<ExpensePaymentEntity> {
     const existingExpensePayment = await this.findOneByCondition({
       filter: `id||$eq||${id}`,
-      join: 'invoices',
+      join: 'expenseInvoices',
     });
     await this.expensePaymentInvoiceEntryService.softDeleteMany(
-      existingExpensePayment.invoices.map((invoice) => invoice.id),
+      existingExpensePayment.expenseInvoices.map((invoice) => invoice.id),
     );
     return this.expensePaymentRepository.softDelete(id);
   }

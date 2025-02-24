@@ -69,5 +69,5 @@ export class CreateExpensePaymentDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  invoices?: CreateExpensePaymentInvoiceEntryDto[];
+  expenseInvoices?: CreateExpensePaymentInvoiceEntryDto[];
 }

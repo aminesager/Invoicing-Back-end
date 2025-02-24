@@ -51,5 +51,5 @@ export class ResponseExpensePaymentDto {
   uploads?: ResponseExpensePaymentUploadDto[];
 
   @ApiProperty({ required: false })
-  invoices?: ResponseExpensePaymentInvoiceEntryDto[];
+  expenseInvoices?: ResponseExpensePaymentInvoiceEntryDto[];
 }

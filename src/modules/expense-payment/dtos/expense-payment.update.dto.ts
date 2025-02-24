@@ -14,5 +14,5 @@ export class UpdateExpensePaymentDto extends CreateExpensePaymentDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  invoices?: UpdateExpensePaymentInvoiceEntryDto[];
+  expenseInvoices?: UpdateExpensePaymentInvoiceEntryDto[];
 }
