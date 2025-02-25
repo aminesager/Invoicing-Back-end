@@ -12,16 +12,18 @@ import {
   JoinColumn,
   OneToMany,
   OneToOne,
+  Migration,
 } from 'typeorm';
 import { ArticleExpenseInvoiceEntryEntity } from './article-expense-invoice-entry.entity';
 import { BankAccountEntity } from 'src/modules/bank-account/repositories/entities/bank-account.entity';
 import { ExpenseInvoiceUploadEntity } from './expense-invoice-file.entity';
 import { ExpenseInvoiceMetaDataEntity } from './expense-invoice-meta-data.entity';
 import { EXPENSE_INVOICE_STATUS } from '../../enums/expense-invoice-status.enum';
-import { QuotationEntity } from 'src/modules/quotation/repositories/entities/quotation.entity';
+import { ExpenseQuotationEntity } from 'src/modules/expense-quotation/repositories/entities/expense-quotation.entity';
 import { TaxEntity } from 'src/modules/tax/repositories/entities/tax.entity';
-import { PaymentInvoiceEntryEntity } from 'src/modules/payment/repositories/entities/payment-invoice-entry.entity';
+import { ExpensePaymentInvoiceEntryEntity } from 'src/modules/expense-payment/repositories/entities/expense-payment-invoice-entry.entity';
 import { TaxWithholdingEntity } from 'src/modules/tax-withholding/repositories/entities/tax-withholding.entity';
+import { table } from 'console';
 
 @Entity('expense-invoice')
 export class ExpenseInvoiceEntity extends EntityHelper {
@@ -115,12 +117,12 @@ export class ExpenseInvoiceEntity extends EntityHelper {
   )
   uploads: ExpenseInvoiceUploadEntity[];
 
-  @ManyToOne(() => QuotationEntity)
-  @JoinColumn({ name: 'quotationId' })
-  quotation: QuotationEntity;
+  @ManyToOne(() => ExpenseQuotationEntity)
+  @JoinColumn({ name: 'expenseQuotationId' })
+  expenseQuotation: ExpenseQuotationEntity;
 
   @Column({ type: 'int', nullable: true })
-  quotationId: number;
+  expenseQuotationId: number;
 
   @ManyToOne(() => TaxEntity)
   @JoinColumn({ name: 'taxStampId' })
@@ -129,8 +131,11 @@ export class ExpenseInvoiceEntity extends EntityHelper {
   @Column({ type: 'int' })
   taxStampId: number;
 
-  @OneToMany(() => PaymentInvoiceEntryEntity, (entry) => entry.invoice)
-  payments: PaymentInvoiceEntryEntity[];
+  @OneToMany(
+    () => ExpensePaymentInvoiceEntryEntity,
+    (entry) => entry.expenseInvoice,
+  )
+  expensePayments: ExpensePaymentInvoiceEntryEntity[];
 
   @ManyToOne(() => TaxWithholdingEntity)
   @JoinColumn({ name: 'taxWithholdingId' })

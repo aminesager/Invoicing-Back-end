@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ExpensePaymentEntity } from './expense-payment.entity';
-import { InvoiceEntity } from 'src/modules/invoice/repositories/entities/invoice.entity';
+import { ExpenseInvoiceEntity } from 'src/modules/expense-invoice/repositories/entities/expense-invoice.entity';
 
 @Entity('expense-payment-invoice_entry')
 export class ExpensePaymentInvoiceEntryEntity extends EntityHelper {
@@ -21,12 +21,12 @@ export class ExpensePaymentInvoiceEntryEntity extends EntityHelper {
   @Column({ type: 'int' })
   expensePaymentId: number;
 
-  @ManyToOne(() => InvoiceEntity)
-  @JoinColumn({ name: 'invoiceId' })
-  invoice: InvoiceEntity;
+  @ManyToOne(() => ExpenseInvoiceEntity)
+  @JoinColumn({ name: 'expenseInvoiceId' })
+  expenseInvoice: ExpenseInvoiceEntity;
 
   @Column({ type: 'int' })
-  invoiceId: number;
+  expenseInvoiceId: number;
 
   @Column({ type: 'float', nullable: true })
   amount: number;

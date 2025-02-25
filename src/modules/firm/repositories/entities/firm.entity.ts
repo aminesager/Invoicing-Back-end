@@ -7,6 +7,7 @@ import { FirmInterlocutorEntryEntity } from 'src/modules/firm-interlocutor-entry
 import { InvoiceEntity } from 'src/modules/invoice/repositories/entities/invoice.entity';
 import { PaymentConditionEntity } from 'src/modules/payment-condition/repositories/entity/payment-condition.entity';
 import { QuotationEntity } from 'src/modules/quotation/repositories/entities/quotation.entity';
+import { ExpenseInvoiceEntity } from 'src/modules/expense-invoice/repositories/entities/expense-invoice.entity';
 import {
   Column,
   Entity,

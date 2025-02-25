@@ -333,22 +333,22 @@ export class ExpenseInvoiceService {
 
   @Transactional()
   async saveFromQuotation(
-    quotation: ExpenseQuotationEntity,
+    expenseQuotation: ExpenseQuotationEntity,
   ): Promise<ExpenseInvoiceEntity> {
     return this.save({
-      quotationId: quotation.id,
-      currencyId: quotation.currencyId,
-      bankAccountId: quotation.bankAccountId,
-      interlocutorId: quotation.interlocutorId,
-      firmId: quotation.firmId,
-      discount: quotation.discount,
-      discount_type: quotation.discount_type,
-      object: quotation.object,
+      expenseQuotationId: expenseQuotation.id,
+      currencyId: expenseQuotation.currencyId,
+      bankAccountId: expenseQuotation.bankAccountId,
+      interlocutorId: expenseQuotation.interlocutorId,
+      firmId: expenseQuotation.firmId,
+      discount: expenseQuotation.discount,
+      discount_type: expenseQuotation.discount_type,
+      object: expenseQuotation.object,
       status: EXPENSE_INVOICE_STATUS.Draft,
       date: new Date(),
       dueDate: null,
-      articleExpenseInvoiceEntries: quotation.articleQuotationEntries.map(
-        (entry) => {
+      articleExpenseInvoiceEntries:
+        expenseQuotation.articleQuotationEntries.map((entry) => {
           return {
             unit_price: entry.unit_price,
             quantity: entry.quantity,
@@ -362,8 +362,7 @@ export class ExpenseInvoiceService {
               return entry.taxId;
             }),
           };
-        },
-      ),
+        }),
     });
   }
 

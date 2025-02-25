@@ -170,7 +170,7 @@ export class ExpenseQuotationController {
     );
     return this.expenseQuotationService.findOneByCondition({
       filter: `id||$eq||${id}`,
-      join: 'invoices',
+      join: 'expenseInvoices',
     });
   }
 

@@ -15,9 +15,8 @@ export class ExpenseQuotationSequenceService {
   ) {}
 
   async get(): Promise<AppConfigEntity> {
-    const sequence = await this.appConfigService.findOneByName(
-      'expense-quotation_sequence',
-    );
+    const sequence =
+      await this.appConfigService.findOneByName('quotation_sequence');
     if (!sequence) {
       throw new ExpenseQuotationSequentialNotFoundException();
     }
@@ -39,7 +38,7 @@ export class ExpenseQuotationSequenceService {
     this.set({ ...sequence.value, next: sequence.value.next + 1 });
     this.wsGateway.sendToRoom(
       WSRoom.EXPENSE_INVOICE_SEQUENCE,
-      'expense-quotation-sequence-updated',
+      'quotation-sequence-updated',
       {
         value: sequence.value.next + 1,
       },

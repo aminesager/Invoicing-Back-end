@@ -217,7 +217,7 @@ export class ExpensePaymentInvoiceEntryService {
 
     const existingInvoice = await this.expenseInvoiceService.findOneByCondition(
       {
-        filter: `id||$eq||${existingEntry.invoiceId}`,
+        filter: `id||$eq||${existingEntry.expenseInvoiceId}`,
         join: 'currency',
       },
     );

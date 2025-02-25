@@ -120,7 +120,7 @@ export class CreateExpenseInvoiceDto {
   })
   @IsOptional()
   @IsInt()
-  quotationId?: number;
+  expenseQuotationId?: number;
 
   @ApiProperty({
     example: '1',
