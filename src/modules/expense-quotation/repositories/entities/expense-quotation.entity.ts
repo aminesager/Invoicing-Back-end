@@ -17,6 +17,8 @@ import { InterlocutorEntity } from 'src/modules/interlocutor/repositories/entity
 import { EXPENSE_QUOTATION_STATUS } from '../../enums/expense-quotation-status.enum';
 import { BankAccountEntity } from 'src/modules/bank-account/repositories/entities/bank-account.entity';
 import { CabinetEntity } from 'src/modules/cabinet/repositories/entities/cabinet.entity';
+import { InvoiceEntity } from 'src/modules/invoice/repositories/entities/invoice.entity';
+import { ExpenseInvoiceEntity } from 'src/modules/expense-invoice/repositories/entities/expense-invoice.entity';
 
 @Entity('expense-quotation')
 export class ExpenseQuotationEntity extends EntityHelper {
@@ -84,4 +86,7 @@ export class ExpenseQuotationEntity extends EntityHelper {
 
   @Column({ type: 'varchar', length: 1024, nullable: true })
   notes: string;
+
+  @OneToMany(() => ExpenseInvoiceEntity, (invoice) => invoice.expenseQuotation)
+  invoices: ExpenseInvoiceEntity[];
 }

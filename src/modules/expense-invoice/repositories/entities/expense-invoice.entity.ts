@@ -12,7 +12,6 @@ import {
   JoinColumn,
   OneToMany,
   OneToOne,
-  Migration,
 } from 'typeorm';
 import { ArticleExpenseInvoiceEntryEntity } from './article-expense-invoice-entry.entity';
 import { BankAccountEntity } from 'src/modules/bank-account/repositories/entities/bank-account.entity';
@@ -23,7 +22,6 @@ import { ExpenseQuotationEntity } from 'src/modules/expense-quotation/repositori
 import { TaxEntity } from 'src/modules/tax/repositories/entities/tax.entity';
 import { ExpensePaymentInvoiceEntryEntity } from 'src/modules/expense-payment/repositories/entities/expense-payment-invoice-entry.entity';
 import { TaxWithholdingEntity } from 'src/modules/tax-withholding/repositories/entities/tax-withholding.entity';
-import { table } from 'console';
 
 @Entity('expense-invoice')
 export class ExpenseInvoiceEntity extends EntityHelper {
