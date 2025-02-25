@@ -17,6 +17,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ExpenseQuotationEntity } from 'src/modules/expense-quotation/repositories/entities/expense-quotation.entity';
 
 @Entity('firm')
 export class FirmEntity extends EntityHelper {
@@ -94,4 +95,12 @@ export class FirmEntity extends EntityHelper {
   @OneToMany(() => InvoiceEntity, (entry) => entry.firm)
   @JoinTable()
   invoices: InvoiceEntity[];
+
+  @OneToMany(() => ExpenseQuotationEntity, (entry) => entry.firm)
+  @JoinTable()
+  expenseQuotations: ExpenseQuotationEntity[];
+
+  @OneToMany(() => ExpenseInvoiceEntity, (entry) => entry.firm)
+  @JoinTable()
+  expenseInvoices: ExpenseInvoiceEntity[];
 }
