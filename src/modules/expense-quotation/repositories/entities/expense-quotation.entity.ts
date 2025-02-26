@@ -17,8 +17,10 @@ import { InterlocutorEntity } from 'src/modules/interlocutor/repositories/entity
 import { EXPENSE_QUOTATION_STATUS } from '../../enums/expense-quotation-status.enum';
 import { BankAccountEntity } from 'src/modules/bank-account/repositories/entities/bank-account.entity';
 import { CabinetEntity } from 'src/modules/cabinet/repositories/entities/cabinet.entity';
-import { InvoiceEntity } from 'src/modules/invoice/repositories/entities/invoice.entity';
 import { ExpenseInvoiceEntity } from 'src/modules/expense-invoice/repositories/entities/expense-invoice.entity';
+import { ExpenseQuotationMetaDataEntity } from './expense-quotation-meta-data.entity';
+import { ExpenseQuotationUploadEntity } from './expense-quotation-file.entity';
+import { ArticleExpenseQuotationEntryEntity } from './article-expense-quotation-entry.entity';
 
 @Entity('expense-quotation')
 export class ExpenseQuotationEntity extends EntityHelper {
@@ -87,6 +89,32 @@ export class ExpenseQuotationEntity extends EntityHelper {
   @Column({ type: 'varchar', length: 1024, nullable: true })
   notes: string;
 
-  @OneToMany(() => ExpenseInvoiceEntity, (invoice) => invoice.expenseQuotation)
+  @OneToMany(
+    () => ArticleExpenseQuotationEntryEntity,
+    (entry) => entry.expenseQuotation,
+  )
+  articleExpenseQuotationEntries: ArticleExpenseQuotationEntryEntity[];
+
+  @OneToOne(() => ExpenseQuotationMetaDataEntity)
+  @JoinColumn()
+  expenseQuotationMetaData: ExpenseQuotationMetaDataEntity;
+
+  @ManyToOne(() => BankAccountEntity)
+  @JoinColumn({ name: 'bankAccountId' })
+  bankAccount: BankAccountEntity;
+
+  @Column({ type: 'int' })
+  bankAccountId: number;
+
+  @OneToMany(
+    () => ExpenseQuotationUploadEntity,
+    (upload) => upload.expenseQuotation,
+  )
+  uploads: ExpenseQuotationUploadEntity[];
+
+  @OneToMany(
+    () => ExpenseInvoiceEntity,
+    (expenseInvoice) => expenseInvoice.expenseQuotation,
+  )
   invoices: ExpenseInvoiceEntity[];
 }

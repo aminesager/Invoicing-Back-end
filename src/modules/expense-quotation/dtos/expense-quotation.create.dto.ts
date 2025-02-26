@@ -116,5 +116,5 @@ export class CreateExpenseQuotationDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  invoiceId?: number;
+  expenseInvoiceId?: number;
 }

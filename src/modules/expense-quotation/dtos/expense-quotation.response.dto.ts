@@ -130,5 +130,5 @@ export class ResponseExpenseQuotationDto {
   uploads?: ResponseExpenseQuotationUploadDto[];
 
   @ApiProperty({ required: false })
-  invoiceId?: number;
+  expenseInvoiceId?: number;
 }

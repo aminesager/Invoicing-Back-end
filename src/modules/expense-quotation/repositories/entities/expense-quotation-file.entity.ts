@@ -15,8 +15,8 @@ export class ExpenseQuotationUploadEntity extends EntityHelper {
   id: number;
 
   @ManyToOne(() => ExpenseQuotationEntity)
-  @JoinColumn({ name: 'expense-quotationId' })
-  expensequotation: ExpenseQuotationEntity;
+  @JoinColumn({ name: 'expenseQuotationId' })
+  expenseQuotation: ExpenseQuotationEntity;
 
   @Column({ type: 'int' })
   expenseQuotationId: number;
