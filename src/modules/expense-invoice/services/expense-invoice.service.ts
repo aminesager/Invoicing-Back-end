@@ -348,7 +348,7 @@ export class ExpenseInvoiceService {
       date: new Date(),
       dueDate: null,
       articleExpenseInvoiceEntries:
-        expenseQuotation.articleQuotationEntries.map((entry) => {
+        expenseQuotation.articleExpenseQuotationEntries.map((entry) => {
           return {
             unit_price: entry.unit_price,
             quantity: entry.quantity,
@@ -358,7 +358,7 @@ export class ExpenseInvoiceService {
             total: entry.total,
             articleId: entry.article.id,
             article: entry.article,
-            taxes: entry.articleQuotationEntryTaxes.map((entry) => {
+            taxes: entry.articleExpenseQuotationEntryTaxes.map((entry) => {
               return entry.taxId;
             }),
           };
