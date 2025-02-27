@@ -1,8 +1,8 @@
 CREATE TABLE
     IF NOT EXISTS `expense-invoice_meta_data` (
         `id` int NOT NULL AUTO_INCREMENT,
-        `showInvoiceAddress` boolean DEFAULT TRUE,
-        `showDeliveryAddress` boolean DEFAULT TRUE,
+        -- `showInvoiceAddress` boolean DEFAULT TRUE,
+        -- `showDeliveryAddress` boolean DEFAULT TRUE,
         `showArticleDescription` boolean DEFAULT TRUE,
         `hasBankingDetails` boolean DEFAULT TRUE,
         `hasGeneralConditions` boolean DEFAULT TRUE,

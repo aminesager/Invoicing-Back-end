@@ -13,11 +13,11 @@ export class ExpenseInvoiceMetaDataEntity extends EntityHelper {
   )
   expenseInvoice: ExpenseInvoiceEntity;
 
-  @Column({ type: 'boolean', default: true })
-  showExpenseInvoiceAddress: boolean;
+  // @Column({ type: 'boolean', default: true })
+  // showExpenseInvoiceAddress: boolean;
 
-  @Column({ type: 'boolean', default: true })
-  showDeliveryAddress: boolean;
+  // @Column({ type: 'boolean', default: true })
+  // showDeliveryAddress: boolean;
 
   @Column({ type: 'boolean', default: true })
   showArticleDescription: boolean;

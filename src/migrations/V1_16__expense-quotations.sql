@@ -2,8 +2,8 @@
 CREATE TABLE
     IF NOT EXISTS `expense-quotation_meta_data` (
         `id` int NOT NULL AUTO_INCREMENT,
-        `showExpenseInvoiceAddress` boolean DEFAULT TRUE,
-        `showDeliveryAddress` boolean DEFAULT TRUE,
+        -- `showExpenseInvoiceAddress` boolean DEFAULT TRUE,
+        -- `showDeliveryAddress` boolean DEFAULT TRUE,
         `showArticleDescription` boolean DEFAULT TRUE,
         `hasBankingDetails` boolean DEFAULT TRUE,
         `hasGeneralConditions` boolean DEFAULT TRUE,
