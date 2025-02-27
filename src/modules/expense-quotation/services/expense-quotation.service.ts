@@ -63,8 +63,6 @@ export class ExpenseQuotationService {
         'interlocutor,',
         'cabinet.address,',
         'expenseQuotationMetaData,',
-        'firm.deliveryAddress,',
-        'firm.invoicingAddress,',
         'articleExpenseQuotationEntries,',
         'articleExpenseQuotationEntries.article,',
         'articleExpenseQuotationEntries.articleExpenseQuotationEntryTaxes,',
