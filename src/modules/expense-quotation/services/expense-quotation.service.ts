@@ -17,15 +17,15 @@ import { ArticleExpenseQuotationEntryService } from './article-expense-quotation
 import { ArticleExpenseQuotationEntryEntity } from '../repositories/entities/article-expense-quotation-entry.entity';
 import { PdfService } from 'src/common/pdf/services/pdf.service';
 import { format, isAfter } from 'date-fns';
-import { ExpenseQuotationSequenceService } from './expense-quotation-sequence.service';
+// import { ExpenseQuotationSequenceService } from './expense-quotation-sequence.service';
 import { QueryBuilder } from 'src/common/database/utils/database-query-builder';
 import { ExpenseQuotationMetaDataService } from './expense-quotation-meta-data.service';
 import { TaxService } from 'src/modules/tax/services/tax.service';
 import { BankAccountService } from 'src/modules/bank-account/services/bank-account.service';
 import { ExpenseQuotationUploadService } from './expense-quotation-upload.service';
 import { ResponseExpenseQuotationUploadDto } from '../dtos/expense-quotation-upload.response.dto';
-import { ExpenseQuotationSequence } from '../interfaces/expense-quotation-sequence.interface';
-import { UpdateExpenseQuotationSequenceDto } from '../dtos/expense-quotation-seqence.update.dto';
+// import { ExpenseQuotationSequence } from '../interfaces/expense-quotation-sequence.interface';
+// import { UpdateExpenseQuotationSequenceDto } from '../dtos/expense-quotation-seqence.update.dto';
 import { Transactional } from '@nestjs-cls/transactional';
 import { DuplicateExpenseQuotationDto } from '../dtos/expense-quotation.duplicate.dto';
 import { EXPENSE_QUOTATION_STATUS } from '../enums/expense-quotation-status.enum';
@@ -43,7 +43,7 @@ export class ExpenseQuotationService {
     private readonly currencyService: CurrencyService,
     private readonly firmService: FirmService,
     private readonly interlocutorService: InterlocutorService,
-    private readonly expenseQuotationSequenceService: ExpenseQuotationSequenceService,
+    // private readonly expenseQuotationSequenceService: ExpenseQuotationSequenceService,
     private readonly expenseQuotationMetaDataService: ExpenseQuotationMetaDataService,
     private readonly taxService: TaxService,
 
@@ -225,8 +225,8 @@ export class ExpenseQuotationService {
     );
 
     // Fetch the latest sequential number for quotation
-    const sequential =
-      await this.expenseQuotationSequenceService.getSequential();
+    // const sequential =
+    //   await this.expenseQuotationSequenceService.getSequential();
 
     // Save quotation metadata
     const expenseQuotationMetaData =
@@ -240,7 +240,7 @@ export class ExpenseQuotationService {
       ...createExpenseQuotationDto,
       bankAccountId: bankAccount ? bankAccount.id : null,
       currencyId: currency ? currency.id : firm.currencyId,
-      sequential,
+      // sequential,
       articleExpenseQuotationEntries: articleEntries,
       expenseQuotationMetaData,
       subTotal,
@@ -439,11 +439,11 @@ export class ExpenseQuotationService {
       await this.expenseQuotationMetaDataService.duplicate(
         existingExpenseQuotation.expenseQuotationMetaData.id,
       );
-    const sequential =
-      await this.expenseQuotationSequenceService.getSequential();
+    // const sequential =
+    //   await this.expenseQuotationSequenceService.getSequential();
     const expenseQuotation = await this.expenseQuotationRepository.save({
       ...existingExpenseQuotation,
-      sequential,
+      // sequential,
       expenseQuotationMetaData,
       articleExpenseQuotationEntries: [],
       uploads: [],
@@ -492,12 +492,12 @@ export class ExpenseQuotationService {
     );
   }
 
-  async updateExpenseQuotationSequence(
-    updatedSequenceDto: UpdateExpenseQuotationSequenceDto,
-  ): Promise<ExpenseQuotationSequence> {
-    return (await this.expenseQuotationSequenceService.set(updatedSequenceDto))
-      .value;
-  }
+  // async updateExpenseQuotationSequence(
+  //   updatedSequenceDto: UpdateExpenseQuotationSequenceDto,
+  // ): Promise<ExpenseQuotationSequence> {
+  //   return (await this.expenseQuotationSequenceService.set(updatedSequenceDto))
+  //     .value;
+  // }
 
   @Transactional()
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)

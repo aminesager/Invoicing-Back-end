@@ -18,7 +18,7 @@ CREATE TABLE
 CREATE TABLE
     IF NOT EXISTS `expense-quotation` (
         `id` int NOT NULL AUTO_INCREMENT,
-        `sequential` varchar(25) NOT NULL UNIQUE,
+        `sequential` varchar(25) NOT NULL ,
         `date` datetime DEFAULT NULL,
         `dueDate` datetime DEFAULT NULL,
         `object` varchar(255) DEFAULT NULL,

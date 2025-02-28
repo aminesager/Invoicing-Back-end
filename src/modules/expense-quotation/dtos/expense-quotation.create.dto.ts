@@ -29,6 +29,11 @@ export class CreateExpenseQuotationDto {
   @MaxLength(255)
   object?: string;
 
+  @IsOptional()
+  @IsString()
+  @MaxLength(25)
+  sequential?: string;
+
   @ApiProperty({
     example: faker.hacker.phrase(),
     type: String,

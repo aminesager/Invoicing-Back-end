@@ -28,7 +28,7 @@ export class ExpenseQuotationEntity extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 25, unique: true })
+  @Column({ type: 'varchar', length: 25 })
   sequential: string;
 
   @Column({ nullable: true })

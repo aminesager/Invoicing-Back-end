@@ -11,7 +11,7 @@ import { ArticleModule } from '../article/article.module';
 import { PdfModule } from 'src/common/pdf/pdf.module';
 import { CalculationsModule } from 'src/common/calculations/calculations.module';
 import { AppConfigModule } from 'src/common/app-config/app-config.module';
-import { ExpenseQuotationSequenceService } from './services/expense-quotation-sequence.service';
+// import { ExpenseQuotationSequenceService } from './services/expense-quotation-sequence.service';
 import { GatewaysModule } from 'src/common/gateways/gateways.module';
 import { ExpenseQuotationMetaDataService } from './services/expense-quotation-meta-data.service';
 import { BankAccountModule } from '../bank-account/bank-account.module';
@@ -25,7 +25,7 @@ import { ExpenseInvoiceModule } from '../expense-invoice/expense-invoice.module'
     ExpenseQuotationService,
     ExpenseQuotationMetaDataService,
     ExpenseQuotationUploadService,
-    ExpenseQuotationSequenceService,
+    // ExpenseQuotationSequenceService,
     ArticleExpenseQuotationEntryService,
     ArticleExpenseQuotationEntryTaxService,
   ],

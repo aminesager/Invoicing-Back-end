@@ -19,9 +19,9 @@ import { PageDto } from 'src/common/database/dtos/database.page.dto';
 import { CreateExpenseQuotationDto } from '../dtos/expense-quotation.create.dto';
 import { UpdateExpenseQuotationDto } from '../dtos/expense-quotation.update.dto';
 import { IQueryObject } from 'src/common/database/interfaces/database-query-options.interface';
-import { UpdateExpenseQuotationSequenceDto } from '../dtos/expense-quotation-seqence.update.dto';
+// import { UpdateExpenseQuotationSequenceDto } from '../dtos/expense-quotation-seqence.update.dto';
 import { DuplicateExpenseQuotationDto } from '../dtos/expense-quotation.duplicate.dto';
-import { ExpenseQuotationSequence } from '../interfaces/expense-quotation-sequence.interface';
+// import { ExpenseQuotationSequence } from '../interfaces/expense-quotation-sequence.interface';
 import { EXPENSE_QUOTATION_STATUS } from '../enums/expense-quotation-status.enum';
 import { ExpenseInvoiceService } from 'src/modules/expense-invoice/services/expense-invoice.service';
 import { LogInterceptor } from 'src/common/logger/decorators/logger.interceptor';
@@ -114,19 +114,19 @@ export class ExpenseQuotationController {
     return expenseQuotation;
   }
 
-  @Put('/update-expense-quotation-sequences')
-  @ApiParam({
-    name: 'id',
-    type: 'number',
-    required: true,
-  })
-  async updateExpenseQuotationSequences(
-    @Body() updatedSequenceDto: UpdateExpenseQuotationSequenceDto,
-  ): Promise<ExpenseQuotationSequence> {
-    return this.expenseQuotationService.updateExpenseQuotationSequence(
-      updatedSequenceDto,
-    );
-  }
+  // @Put('/update-expense-quotation-sequences')
+  // @ApiParam({
+  //   name: 'id',
+  //   type: 'number',
+  //   required: true,
+  // })
+  // async updateExpenseQuotationSequences(
+  //   @Body() updatedSequenceDto: UpdateExpenseQuotationSequenceDto,
+  // ): Promise<ExpenseQuotationSequence> {
+  //   return this.expenseQuotationService.updateExpenseQuotationSequence(
+  //     updatedSequenceDto,
+  //   );
+  // }
 
   @ApiParam({
     name: 'id',
