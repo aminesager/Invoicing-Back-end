@@ -50,7 +50,7 @@ export class ExpenseInvoiceService {
     private readonly firmService: FirmService,
     private readonly interlocutorService: InterlocutorService,
     private readonly expenseInvoiceSequenceService: ExpenseInvoiceSequenceService,
-    private readonly ExpenseInvoiceMetaDataService: ExpenseInvoiceMetaDataService,
+    private readonly expenseInvoiceMetaDataService: ExpenseInvoiceMetaDataService,
     private readonly taxService: TaxService,
     private readonly taxWithholdingService: TaxWithholdingService,
 
@@ -74,8 +74,8 @@ export class ExpenseInvoiceService {
         // 'firm.invoicingAddress,',
         'articleExpenseInvoiceEntries,',
         'articleExpenseInvoiceEntries.article,',
-        'articleExpenseInvoiceEntries.articleInvoiceEntryTaxes,',
-        'articleExpenseInvoiceEntries.articleInvoiceEntryTaxes.tax',
+        'articleExpenseInvoiceEntries.articleExpenseInvoiceEntryTaxes,',
+        'articleExpenseInvoiceEntries.articleExpenseInvoiceEntryTaxes.tax',
       ),
     });
     const digitsAferComma = expenseInvoice.currency.digitAfterComma;
@@ -275,7 +275,7 @@ export class ExpenseInvoiceService {
 
     // Save invoice metadata
     const expenseInvoiceMetaData =
-      await this.ExpenseInvoiceMetaDataService.save({
+      await this.expenseInvoiceMetaDataService.save({
         ...createExpenseInvoiceDto.expenseInvoiceMetaData,
         taxSummary,
       });
@@ -375,7 +375,7 @@ export class ExpenseInvoiceService {
     const { uploads: existingUploads, ...existingExpenseInvoice } =
       await this.findOneByCondition({
         filter: `id||$eq||${id}`,
-        join: 'articleExpenseInvoiceEntries,ExpenseInvoiceMetaData,uploads,taxWithholding',
+        join: 'articleExpenseInvoiceEntries,expenseInvoiceMetaData,uploads,taxWithholding',
       });
 
     // Fetch and validate related entities
@@ -460,7 +460,7 @@ export class ExpenseInvoiceService {
 
     // Save or update the invoice metadata with the updated tax summary
     const expenseInvoiceMetaData =
-      await this.ExpenseInvoiceMetaDataService.save({
+      await this.expenseInvoiceMetaDataService.save({
         ...existingExpenseInvoice.expenseInvoiceMetaData,
         ...updateExpenseInvoiceDto.expenseInvoiceMetaData,
         taxSummary,
@@ -528,12 +528,12 @@ export class ExpenseInvoiceService {
       join: new String().concat(
         'expenseInvoiceMetaData,',
         'articleExpenseInvoiceEntries,',
-        'articleExpenseInvoiceEntries.articleInvoiceEntryTaxes,',
+        'articleExpenseInvoiceEntries.articleExpenseInvoiceEntryTaxes,',
         'uploads',
       ),
     });
     const expenseInvoiceMetaData =
-      await this.ExpenseInvoiceMetaDataService.duplicate(
+      await this.expenseInvoiceMetaDataService.duplicate(
         existingExpenseInvoice.expenseInvoiceMetaData.id,
       );
     const sequential = await this.expenseInvoiceSequenceService.getSequential();

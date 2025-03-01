@@ -52,6 +52,16 @@ export class ExpenseQuotationService {
     private readonly pdfService: PdfService,
   ) {}
 
+  // async download(id: number): Promise<StreamableFile> {
+  //   const expenseQuotationUpload =
+  //     await this.expenseQuotationUploadService.findOneById(id);
+  //   if (expenseQuotationUpload) {
+  //     return new StreamableFile(expenseQuotationUpload);
+  //   } else {
+  //     throw new ExpenseQuotationNotFoundException();
+  //   }
+  // }
+
   async downloadPdf(id: number, template: string): Promise<StreamableFile> {
     const expenseQuotation = await this.findOneByCondition({
       filter: `id||$eq||${id}`,
