@@ -18,7 +18,7 @@ CREATE TABLE
     IF NOT EXISTS `expense-invoice` (
         `id` int NOT NULL AUTO_INCREMENT,
         `amountPaid` float DEFAULT 0,
-        `sequential` varchar(25) NOT NULL UNIQUE,
+        `sequential` varchar(25) NOT NULL ,
         `date` datetime DEFAULT NULL,
         `dueDate` datetime DEFAULT NULL,
         `object` varchar(255) DEFAULT NULL,

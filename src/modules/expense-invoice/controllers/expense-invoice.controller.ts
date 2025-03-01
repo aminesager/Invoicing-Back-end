@@ -19,10 +19,10 @@ import { ExpenseInvoiceService } from '../services/expense-invoice.service';
 import { ResponseExpenseInvoiceDto } from '../dtos/expense-invoice.response.dto';
 import { CreateExpenseInvoiceDto } from '../dtos/expense-invoice.create.dto';
 import { DuplicateExpenseInvoiceDto } from '../dtos/expense-invoice.duplicate.dto';
-import { ExpenseInvoiceSequence } from '../interfaces/expense-invoice-sequence.interface';
-import { UpdateExpenseInvoiceSequenceDto } from '../dtos/expense-invoice-seqence.update.dto';
+// import { ExpenseInvoiceSequence } from '../interfaces/expense-invoice-sequence.interface';
+// import { UpdateExpenseInvoiceSequenceDto } from '../dtos/expense-invoice-seqence.update.dto';
 import { UpdateExpenseInvoiceDto } from '../dtos/expense-invoice.update.dto';
-import { ResponseExpenseInvoiceRangeDto } from '../dtos/expense-invoice-range.response.dto';
+// import { ResponseExpenseInvoiceRangeDto } from '../dtos/expense-invoice-range.response.dto';
 import { LogInterceptor } from 'src/common/logger/decorators/logger.interceptor';
 import { EVENT_TYPE } from 'src/app/enums/logger/event-types.enum';
 import { LogEvent } from 'src/common/logger/decorators/log-event.decorator';
@@ -52,12 +52,12 @@ export class ExpenseInvoiceController {
     return this.expenseInvoiceService.findAllPaginated(query);
   }
 
-  @Get('/sequential-range/:id')
-  async findExpenseInvoicesByRange(
-    @Param('id') id: number,
-  ): Promise<ResponseExpenseInvoiceRangeDto> {
-    return this.expenseInvoiceService.findExpenseInvoicesByRange(id);
-  }
+  // @Get('/sequential-range/:id')
+  // async findExpenseInvoicesByRange(
+  //   @Param('id') id: number,
+  // ): Promise<ResponseExpenseInvoiceRangeDto> {
+  //   return this.expenseInvoiceService.findExpenseInvoicesByRange(id);
+  // }
 
   @Get('/:id')
   @ApiParam({
@@ -117,19 +117,19 @@ export class ExpenseInvoiceController {
     return expenseInvoice;
   }
 
-  @ApiParam({
-    name: 'id',
-    type: 'number',
-    required: true,
-  })
-  @Put('/update-expense-invoice-sequences')
-  async updateExpenseInvoiceSequences(
-    @Body() updatedSequenceDto: UpdateExpenseInvoiceSequenceDto,
-  ): Promise<ExpenseInvoiceSequence> {
-    return this.expenseInvoiceService.updateExpenseInvoiceSequence(
-      updatedSequenceDto,
-    );
-  }
+  // @ApiParam({
+  //   name: 'id',
+  //   type: 'number',
+  //   required: true,
+  // })
+  // @Put('/update-expense-invoice-sequences')
+  // async updateExpenseInvoiceSequences(
+  //   @Body() updatedSequenceDto: UpdateExpenseInvoiceSequenceDto,
+  // ): Promise<ExpenseInvoiceSequence> {
+  //   return this.expenseInvoiceService.updateExpenseInvoiceSequence(
+  //     updatedSequenceDto,
+  //   );
+  // }
 
   @ApiParam({
     name: 'id',

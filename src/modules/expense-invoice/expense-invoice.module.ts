@@ -13,7 +13,7 @@ import { StorageModule } from 'src/common/storage/storage.module';
 import { ExpenseInvoiceService } from './services/expense-invoice.service';
 import { ExpenseInvoiceMetaDataService } from './services/expense-invoice-meta-data.service';
 import { ExpenseInvoiceUploadService } from './services/expense-invoice-upload.service';
-import { ExpenseInvoiceSequenceService } from './services/expense-invoice-sequence.service';
+// import { ExpenseInvoiceSequenceService } from './services/expense-invoice-sequence.service';
 import { ArticleExpenseInvoiceEntryService } from './services/article-expense-invoice-entry.service';
 import { ArticleExpenseInvoiceEntryTaxService } from './services/article-expense-invoice-entry-tax.service';
 import { ExpenseInvoiceRepositoryModule } from './repositories/expense-invoice.repository.module';
@@ -25,7 +25,7 @@ import { TaxWithholdingModule } from '../tax-withholding/tax-withholding.module'
     ExpenseInvoiceService,
     ExpenseInvoiceMetaDataService,
     ExpenseInvoiceUploadService,
-    ExpenseInvoiceSequenceService,
+    // ExpenseInvoiceSequenceService,
     ArticleExpenseInvoiceEntryService,
     ArticleExpenseInvoiceEntryTaxService,
   ],

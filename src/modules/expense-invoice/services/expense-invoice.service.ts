@@ -18,7 +18,7 @@ import { ExpenseInvoiceRepository } from '../repositories/repository/expense-inv
 import { ArticleExpenseInvoiceEntryService } from './article-expense-invoice-entry.service';
 import { ExpenseInvoiceUploadService } from './expense-invoice-upload.service';
 import { ExpenseInvoiceMetaDataService } from './expense-invoice-meta-data.service';
-import { ExpenseInvoiceSequenceService } from './expense-invoice-sequence.service';
+// import { ExpenseInvoiceSequenceService } from './expense-invoice-sequence.service';
 import { ExpenseInvoiceNotFoundException } from '../errors/expense-invoice.notfound.error';
 import { ExpenseInvoiceEntity } from '../repositories/entities/expense-invoice.entity';
 import { ResponseExpenseInvoiceDto } from '../dtos/expense-invoice.response.dto';
@@ -49,7 +49,7 @@ export class ExpenseInvoiceService {
     private readonly currencyService: CurrencyService,
     private readonly firmService: FirmService,
     private readonly interlocutorService: InterlocutorService,
-    private readonly expenseInvoiceSequenceService: ExpenseInvoiceSequenceService,
+    // private readonly expenseInvoiceSequenceService: ExpenseInvoiceSequenceService,
     private readonly expenseInvoiceMetaDataService: ExpenseInvoiceMetaDataService,
     private readonly taxService: TaxService,
     private readonly taxWithholdingService: TaxWithholdingService,
@@ -154,37 +154,37 @@ export class ExpenseInvoiceService {
     return new PageDto(entities, pageMetaDto);
   }
 
-  async findExpenseInvoicesByRange(
-    id: number,
-  ): Promise<ResponseExpenseInvoiceRangeDto> {
-    // Get the current sequential
-    const currentSequential = await this.expenseInvoiceSequenceService.get();
-    const lastSequence = currentSequential.value.next - 1;
+  // async findExpenseInvoicesByRange(
+  //   id: number,
+  // ): Promise<ResponseExpenseInvoiceRangeDto> {
+  //   // Get the current sequential
+  //   const currentSequential = await this.expenseInvoiceSequenceService.get();
+  //   const lastSequence = currentSequential.value.next - 1;
 
-    // fetch the invoice
-    const expenseInvoice = await this.findOneById(id);
-    const { next } = parseSequential(expenseInvoice.sequential);
+  //   // fetch the invoice
+  //   const expenseInvoice = await this.findOneById(id);
+  //   const { next } = parseSequential(expenseInvoice.sequential);
 
-    // determine the previous and next invoices
-    const previousExpenseInvoice =
-      next != 1
-        ? await this.findOneByCondition({
-            filter: `sequential||$ends||${next - 1}`,
-          })
-        : null;
+  //   // determine the previous and next invoices
+  //   const previousExpenseInvoice =
+  //     next != 1
+  //       ? await this.findOneByCondition({
+  //           filter: `sequential||$ends||${next - 1}`,
+  //         })
+  //       : null;
 
-    const nextExpenseInvoice =
-      next != lastSequence
-        ? await this.findOneByCondition({
-            filter: `sequential||$ends||${next + 1}`,
-          })
-        : null;
+  //   const nextExpenseInvoice =
+  //     next != lastSequence
+  //       ? await this.findOneByCondition({
+  //           filter: `sequential||$ends||${next + 1}`,
+  //         })
+  //       : null;
 
-    return {
-      next: nextExpenseInvoice,
-      previous: previousExpenseInvoice,
-    };
-  }
+  //   return {
+  //     next: nextExpenseInvoice,
+  //     previous: previousExpenseInvoice,
+  //   };
+  // }
 
   @Transactional()
   async save(
@@ -271,7 +271,7 @@ export class ExpenseInvoiceService {
     );
 
     // Fetch the latest sequential number for invoice
-    const sequential = await this.expenseInvoiceSequenceService.getSequential();
+    // const sequential = await this.expenseInvoiceSequenceService.getSequential();
 
     // Save invoice metadata
     const expenseInvoiceMetaData =
@@ -300,7 +300,7 @@ export class ExpenseInvoiceService {
       currencyId: currency ? currency.id : firm.currencyId,
       //this will be changed to fit with the connected cabinet
       cabinetId: 1,
-      sequential,
+      // sequential,
       articleExpenseInvoiceEntries: articleEntries,
       expenseInvoiceMetaData,
       subTotal,
@@ -536,11 +536,11 @@ export class ExpenseInvoiceService {
       await this.expenseInvoiceMetaDataService.duplicate(
         existingExpenseInvoice.expenseInvoiceMetaData.id,
       );
-    const sequential = await this.expenseInvoiceSequenceService.getSequential();
+    // const sequential = await this.expenseInvoiceSequenceService.getSequential();
     const expenseInvoice = await this.expenseInvoiceRepository.save({
       ...existingExpenseInvoice,
       id: undefined,
-      sequential,
+      // sequential,
       expenseInvoiceMetaData,
       articleExpenseInvoiceEntries: [],
       uploads: [],
@@ -576,12 +576,12 @@ export class ExpenseInvoiceService {
     return this.expenseInvoiceRepository.updateMany(updateExpenseInvoiceDtos);
   }
 
-  async updateExpenseInvoiceSequence(
-    updatedSequenceDto: UpdateExpenseInvoiceSequenceDto,
-  ): Promise<ExpenseInvoiceSequence> {
-    return (await this.expenseInvoiceSequenceService.set(updatedSequenceDto))
-      .value;
-  }
+  // async updateExpenseInvoiceSequence(
+  //   updatedSequenceDto: UpdateExpenseInvoiceSequenceDto,
+  // ): Promise<ExpenseInvoiceSequence> {
+  //   return (await this.expenseInvoiceSequenceService.set(updatedSequenceDto))
+  //     .value;
+  // }
 
   async softDelete(id: number): Promise<ExpenseInvoiceEntity> {
     await this.findOneById(id);
